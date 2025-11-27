@@ -1,11 +1,12 @@
 'use client'
 
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 import { useLayoutEffect, useRef } from 'react'
 import styles from './Home.module.scss'
 
-gsap.registerPlugin(SplitText)
+gsap.registerPlugin(SplitText, ScrollTrigger)
 
 export default function Home() {
 	const titleRef = useRef<HTMLHeadingElement | null>(null)
@@ -14,6 +15,8 @@ export default function Home() {
 	const rightPulseRef = useRef<SVGSVGElement | null>(null)
 	const leftTreeRef = useRef<SVGSVGElement | null>(null)
 	const leftPulseRef = useRef<SVGSVGElement | null>(null)
+	const heroRef = useRef<HTMLElement | null>(null)
+	const verticalLineRef = useRef<SVGSVGElement | null>(null)
 
 	useLayoutEffect(() => {
 		const ctx = gsap.context(() => {
@@ -238,6 +241,34 @@ export default function Home() {
 					}
 				})
 			}
+
+			// ============================
+			// 6. ВЕРТИКАЛЬНАЯ ЛИНИЯ ПО СКРОЛЛУ
+			//    СНИЗУ ВВЕРХ / ВВЕРХ ВНИЗ
+			// ============================
+			if (verticalLineRef.current && heroRef.current) {
+				const line = verticalLineRef.current.querySelector('path')
+				if (line) {
+					const length = line.getTotalLength()
+
+					// прячем линию полностью
+					gsap.set(line, {
+						strokeDasharray: length,
+						strokeDashoffset: length,
+					})
+
+					gsap.to(line, {
+						strokeDashoffset: 0,
+						ease: 'none',
+						scrollTrigger: {
+							trigger: heroRef.current,
+							start: 'top top',
+							end: '+=300', // линия полностью дорисуется уже через ~300px скролла
+							scrub: true, // всё ещё привязано к скроллу и обратно откатывается
+						},
+					})
+				}
+			}
 		})
 
 		return () => ctx.revert()
@@ -245,7 +276,7 @@ export default function Home() {
 
 	return (
 		<>
-			<section className={styles.Hero}>
+			<section className={styles.Hero} ref={heroRef}>
 				<div className='container'>
 					{/*  ЛЕВАЯ СХЕМА */}
 					<span className={styles.leftTree}>
@@ -441,6 +472,25 @@ export default function Home() {
 								d='M 0 210 H 140 C 220 210 220 390 320 390 H 600'
 								stroke='green'
 								strokeWidth='1'
+								strokeLinecap='round'
+							/>
+						</svg>
+					</span>
+
+					{/* ВЕРТИКАЛЬНАЯ ЛИНИЯ */}
+					<span className={styles.verticalLine}>
+						<svg
+							ref={verticalLineRef}
+							xmlns='http://www.w3.org/2000/svg'
+							width='2'
+							height='250'
+							viewBox='0 0 2 400'
+							fill='none'
+						>
+							<path
+								d='M 1 0 V 400'
+								stroke='#D5D9E5'
+								strokeWidth='3'
 								strokeLinecap='round'
 							/>
 						</svg>
