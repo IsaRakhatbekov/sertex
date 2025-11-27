@@ -246,38 +246,6 @@ export default function Home() {
 	return (
 		<>
 			<section className={styles.Hero}>
-				<span className={styles.blocks}>
-					<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'>
-						<defs>
-							<pattern
-								id='squareGrid'
-								x='0'
-								y='0'
-								width='40'
-								height='40'
-								patternUnits='userSpaceOnUse'
-							>
-								<path
-									d='M 0 0 L 40 0'
-									fill='none'
-									stroke='#C9D0E0'
-									strokeWidth='0.5'
-									strokeOpacity='1'
-								/>
-								<path
-									d='M 0 0 L 0 40'
-									fill='none'
-									stroke='#C9D0E0'
-									strokeWidth='0.5'
-									strokeOpacity='1'
-								/>
-							</pattern>
-						</defs>
-
-						<rect width='100%' height='100%' fill='url(#squareGrid)' />
-					</svg>
-				</span>
-
 				<div className='container'>
 					{/*  ЛЕВАЯ СХЕМА */}
 					<span className={styles.leftTree}>
@@ -480,9 +448,91 @@ export default function Home() {
 				</div>
 			</section>
 
-			<section className={styles.ai}>
+			<section className={styles.WhatWeDo}>
 				<div className='container'>
-					<h2>Discover our AI Product Range</h2>
+					<h2>Наши решения</h2>
+
+					<ul className={styles.list}>
+						<li className={styles.item}>
+							<div className={styles.iconWrapper}></div>
+							<h3>🌐 Веб-разработка</h3>
+							<p className={styles.text}>
+								Создаём современные корпоративные сайты и онлайн-сервисы.
+							</p>
+						</li>
+						<li className={styles.item}>
+							<div className={styles.iconWrapper}></div>
+							<h3>🤖 AI-решения</h3>
+							<p className={styles.text}>
+								Внедряем автоматизацию процессов и умных помощников.
+							</p>
+						</li>
+						<li className={styles.item}>
+							<div className={styles.iconWrapper}></div>
+							<h3>🏢 Корпоративные системы</h3>
+							<p className={styles.text}>
+								Разрабатываем внутренние порталы, заявки, документы, процессы.
+							</p>
+						</li>
+						<li className={styles.item}>
+							<div className={styles.iconWrapper}></div>
+							<h3>Облачные решения (SaaS/PaaS)</h3>
+							<p className={styles.text}>
+								Запускаем корпоративные сервисы, доступные сотрудникам и
+								клиентам онлайн
+							</p>
+						</li>
+						<li className={styles.item}>
+							<div className={styles.iconWrapper}></div>
+							<h3>🖥️ Серверная инфраструктура</h3>
+							<p className={styles.text}>
+								Размещаем, настраиваем и обслуживаем серверы и хостинг.
+							</p>
+						</li>
+						<li className={styles.item}>
+							<div className={styles.iconWrapper}></div>
+							<h3>Корпоративное ПО</h3>
+							<p className={styles.text}>
+								Создаём ПО под задачи компании: учёт, отчёты, процессы.
+							</p>
+						</li>
+						<li className={styles.item}>
+							<div className={styles.iconWrapper}></div>
+							<h3>DevOps и интеграции</h3>
+							<p className={styles.text}>
+								Настраиваем автоматические обновления, связки и сценарии n8n.
+							</p>
+						</li>
+						<li className={styles.item}>
+							<div className={styles.iconWrapper}></div>
+							<h3>Backup & Storage</h3>
+							<p className={styles.text}>
+								Обеспечиваем надёжное хранение данных и резервные копии.
+							</p>
+						</li>
+						<li className={styles.item}>
+							<div className={styles.iconWrapper}></div>
+							<h3>Техподдержка 24/7</h3>
+							<p className={styles.text}>
+								Помогаем сотрудникам и следим за стабильностью систем.
+							</p>
+						</li>
+					</ul>
+
+					<button>Посмотреть детально</button>
+				</div>
+			</section>
+
+			{/* ========================================================== */}
+			<section className={styles.Solutions}>
+				<div className='container'>
+					<h2>Solutions</h2>
+					<h3>problems -- solutions</h3>
+				</div>
+			</section>
+			<section className={styles.Details}>
+				<div className='container'>
+					<h2>Details</h2>
 				</div>
 			</section>
 		</>

@@ -149,7 +149,45 @@
 	}
 }
 
-.ai {
+.WhatWeDo {
+	padding: 50px 0;
+	text-align: center;
+
+	h2 {
+		font-size: 50px;
+	}
+	.list {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: repeat(2, auto);
+		gap: 40px; // расстояние между карточками
+		margin-top: 40px;
+	}
+
+	.item {
+		background: rgba(255, 255, 255, 0.03);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: 20px;
+		padding: 30px;
+		text-align: left;
+	}
+}
+
+.Solutions {
 	padding: 100px 0;
 	text-align: center;
+
+	h2 {
+		font-size: 50px;
+		line-height: 1.3em;
+	}
+}
+.Details {
+	padding: 100px 0;
+	text-align: center;
+
+	h2 {
+		font-size: 50px;
+		line-height: 1.3em;
+	}
 }
