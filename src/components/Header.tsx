@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 import styles from './Header.module.scss'
 
 const Header = () => {
-	const headerRef = useRef(null)
+	const headerRef = useRef<HTMLElement | null>(null)
 	const [isLanguageOpen, setIsLanguageOpen] = useState(false)
 	const [currentLanguage, setCurrentLanguage] = useState('RU')
 
@@ -18,9 +18,10 @@ const Header = () => {
 	useEffect(() => {
 		if (!headerRef.current) return
 
-		gsap.from(headerRef.current, {
-			y: -150,
-			opacity: 0,
+		// Жёстко задаём: едет СВЕРХУ ВНИЗ с bounce
+		gsap.to(headerRef.current, {
+			y: 0,
+			opacity: 1,
 			duration: 1,
 			delay: 2,
 			ease: 'bounce.out',
@@ -30,7 +31,6 @@ const Header = () => {
 	const handleLanguageSelect = (language: { code: string; name: string }) => {
 		setCurrentLanguage(language.code)
 		setIsLanguageOpen(false)
-		// Здесь можно добавить логику смены языка в приложении
 	}
 
 	return (

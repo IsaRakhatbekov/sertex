@@ -6,6 +6,11 @@
 	margin: 0 auto;
 	z-index: 90;
 
+	// Стартовое состояние для анимации GSAP:
+	// header спрятан наверху и прозрачный
+	transform: translateY(-150px);
+	opacity: 0;
+
 	.nav {
 		gap: 20px;
 		display: flex;
