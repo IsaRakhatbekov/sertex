@@ -30,166 +30,21 @@
 		margin: 0 auto;
 	}
 
-	.leftLine {
-		position: absolute;
-		top: -20%;
-		right: 0;
-		transform: rotate(90deg);
-	}
-
-	.rightLine {
-		position: absolute;
-		top: -20%;
-		left: -150px;
-		transform: rotate(270deg);
-	}
-
-	.leftTree {
-		position: absolute;
-		left: -35%;
-		top: 50%;
-		transform: translateY(-50%);
-		z-index: -1;
-	}
-
-	.leftTree .treeMain,
-	.leftTree .treeTop,
-	.leftTree .treeSecond,
-	.leftTree .treeThird,
-	.leftTree .treeBottom {
-		stroke-dasharray: 1000;
-		stroke-dashoffset: 1000;
-		animation: draw-left 1.6s ease-out forwards;
-	}
-
 	.rightTree {
 		position: absolute;
-		right: -35%;
 		top: 50%;
+		right: -7%;
 		transform: translateY(-50%);
-		z-index: -1;
+
+		svg {
+			display: block;
+		}
 	}
 
-	.rightTree .treeMain,
-	.rightTree .treeTop,
-	.rightTree .treeSecond,
-	.rightTree .treeThird,
-	.rightTree .treeBottom {
-		stroke-dasharray: 1000;
-		stroke-dashoffset: 1000;
-		animation: draw-right 1.6s ease-out forwards;
-	}
-
-	.treeMain {
-		animation-delay: 0s;
-	}
-	.treeTop {
-		animation-delay: 0.3s;
-	}
-	.treeThird {
-		animation-delay: 0.6s;
-	}
-	.treeSecond {
-		animation-delay: 0.9s;
-	}
-	.treeBottom {
-		animation-delay: 1.2s;
-	}
-
-	.leftFirstLogo,
-	.leftSecondLogo,
-	.leftThirdLogo,
-	.leftFourthLogo {
+	.pulseLayer {
 		position: absolute;
-		width: 50px;
-		height: 50px;
-		background-color: #fff;
-		border-radius: 100%;
-		will-change: transform, opacity;
-		background: url('../../public/dell.png') no-repeat center/contain;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.3);
-	}
-
-	.leftFirstLogo {
-		top: 9%;
-		left: -18%;
-	}
-	.leftSecondLogo {
-		top: 26%;
-		left: -11%;
-	}
-	.leftThirdLogo {
-		bottom: 11%;
-		left: -9%;
-	}
-	.leftFourthLogo {
-		bottom: 27%;
-		left: -25%;
-	}
-
-	.firstLogo,
-	.secondLogo,
-	.thirdLogo,
-	.fourthLogo {
-		position: absolute;
-		width: 50px;
-		height: 50px;
-		background-color: #fff;
-		border-radius: 100%;
-		will-change: transform, opacity;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.3);
-		background: url('../../public/dell.png') no-repeat center/contain;
-	}
-
-	.firstLogo {
-		top: 9%;
-		right: -18%;
-	}
-	.secondLogo {
-		top: 26%;
-		right: -11%;
-	}
-	.thirdLogo {
-		bottom: 11%;
-		right: -9%;
-	}
-	.fourthLogo {
-		bottom: 27%;
-		right: -25%;
-	}
-
-	.svgLine {
-		stroke-dasharray: 1000;
-		stroke-dashoffset: 1000;
-		animation: draw-line 2s ease-out forwards;
-	}
-
-	.rightLine .svgLine {
-		animation-delay: 0.4s;
-	}
-
-	@keyframes draw-left {
-		from {
-			stroke-dashoffset: -1000;
-		}
-		to {
-			stroke-dashoffset: 0;
-		}
-	}
-
-	@keyframes draw-right {
-		from {
-			stroke-dashoffset: -1000;
-		}
-		to {
-			stroke-dashoffset: 0;
-		}
-	}
-
-	@keyframes draw-line {
-		to {
-			stroke-dashoffset: 0;
-		}
+		inset: 0; // поверх первого SVG
+		pointer-events: none;
 	}
 }
 
@@ -355,3 +210,45 @@
 		}
 	}
 }
+
+// const ctx = gsap.context(() => {
+// 			// Анимация для h1
+// 			const splitTitle = new SplitText(titleRef.current, {
+// 				type: 'words,chars',
+// 				wordsClass: styles.word,
+// 				charsClass: styles.char,
+// 			})
+
+// 			// Анимация для h2
+// 			const splitSubtitle = new SplitText(subtitleRef.current, {
+// 				type: 'words',
+// 				wordsClass: styles.word,
+// 			})
+
+// 			// Создаем timeline для последовательной анимации
+// 			const tl = gsap.timeline()
+
+// 			// Анимация h1 - слова появляются с задержкой
+// 			tl.from(splitTitle.words, {
+// 				duration: 0.8,
+// 				opacity: 0,
+// 				y: 50,
+// 				rotationX: -90,
+// 				transformOrigin: '50% 50% -50',
+// 				stagger: 0.1,
+// 				ease: 'back.out(1.4)',
+// 			})
+
+// 			// Анимация h2 - слова появляются с другой анимацией
+// 			tl.from(
+// 				splitSubtitle.words,
+// 				{
+// 					duration: 0.6,
+// 					opacity: 0,
+// 					y: 30,
+// 					stagger: 0.1,
+// 					ease: 'power3.out',
+// 				},
+// 				'-=0.3'
+// 			) // Начинаем немного раньше окончания предыдущей анимации
+// 		})

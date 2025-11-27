@@ -1,275 +1,208 @@
 'use client'
 
 import WhyChooseUs from '@/components/whyChooseUs/whyChooseUs'
-import { SplitText } from '@/lib/SplitText'
-import { gsap } from 'gsap'
-import { useEffect } from 'react'
+import gsap from 'gsap'
+import { SplitText } from 'gsap/SplitText'
+import { useLayoutEffect, useRef } from 'react'
 import styles from './Home.module.scss'
 
+gsap.registerPlugin(SplitText)
+
 export default function Home() {
-	useEffect(() => {
-		gsap.registerPlugin(SplitText)
+	const titleRef = useRef<HTMLHeadingElement | null>(null)
+	const subtitleRef = useRef<HTMLHeadingElement | null>(null)
 
-		// ===== ТЕКСТ =====
-		const el = document.querySelector('.split')
-		if (el) {
-			const split = new SplitText(el, {
+	// SVG с основными линиями (D5D9E5)
+	const treeRef = useRef<SVGSVGElement | null>(null)
+	// SVG-слой поверх — для пульсирующих лучей
+	const pulseRef = useRef<SVGSVGElement | null>(null)
+
+	useLayoutEffect(() => {
+		const ctx = gsap.context(() => {
+			// ======= АНИМАЦИЯ ТЕКСТА =======
+			const splitTitle = new SplitText(titleRef.current, {
+				type: 'words,chars',
+				wordsClass: styles.word,
+				charsClass: styles.char,
+			})
+
+			const splitSubtitle = new SplitText(subtitleRef.current, {
 				type: 'words',
-				wordsClass: 'word',
+				wordsClass: styles.word,
 			})
 
-			gsap.from(split.words, {
+			const tl = gsap.timeline()
+
+			// h1 появление
+			tl.from(splitTitle.words, {
+				duration: 1.2,
+				opacity: 0,
 				y: 50,
-				opacity: 0,
-				stagger: 0.1,
-				ease: 'back.out(1.7)',
-				duration: 1.2,
+				rotationX: -90,
+				transformOrigin: '50% 50% -50',
+				stagger: 0.12,
+				ease: 'back.out(1.4)',
 			})
-		}
 
-		// ===== ПРАВЫЕ ЛОГО (едут справа -> центр) =====
-		const rightLogoSelectors = [
-			`.${styles.firstLogo}`,
-			`.${styles.secondLogo}`,
-			`.${styles.thirdLogo}`,
-			`.${styles.fourthLogo}`,
-		]
+			// h2 появление
+			tl.from(
+				splitSubtitle.words,
+				{
+					duration: 1,
+					opacity: 0,
+					y: 30,
+					stagger: 0.12,
+					ease: 'power3.out',
+				},
+				'-=0.4'
+			)
 
-		const rightLogos = rightLogoSelectors
-			.map(sel => document.querySelector(sel))
-			.filter((el): el is HTMLElement => el !== null)
+			// ======= ОДНОРАЗОВАЯ ОТРИСОВКА СЕРЫХ ЛИНИЙ (treeRef) СПРАВА → НАЛЕВО =======
+			if (treeRef.current) {
+				const staticPaths = treeRef.current.querySelectorAll('path')
 
-		if (rightLogos.length) {
-			gsap.from(rightLogos, {
-				x: 200, // старт правее
-				opacity: 0, // из прозрачности
-				duration: 1.2,
-				ease: 'power2.out',
-				stagger: 0.2, // по очереди, с небольшим интервалом
-				delay: 1.2, // чтобы линии уже отрисовались
-			})
-		}
+				const baseDelay = 0.3 // задержка перед стартом первой линии
 
-		// ===== ЛЕВЫЕ ЛОГО (едут слева -> центр) =====
-		const leftLogoSelectors = [
-			`.${styles.leftFirstLogo}`,
-			`.${styles.leftSecondLogo}`,
-			`.${styles.leftThirdLogo}`,
-			`.${styles.leftFourthLogo}`,
-		]
+				staticPaths.forEach((p: SVGPathElement, index) => {
+					const length = p.getTotalLength()
 
-		const leftLogos = leftLogoSelectors
-			.map(sel => document.querySelector(sel))
-			.filter((el): el is HTMLElement => el !== null)
+					// Линия полностью спрятана и "стоит" справа
+					gsap.set(p, {
+						strokeDasharray: length,
+						strokeDashoffset: -length,
+					})
 
-		if (leftLogos.length) {
-			gsap.from(leftLogos, {
-				x: -200, // старт левее
-				opacity: 0,
-				duration: 1.2,
-				ease: 'power2.out',
-				stagger: 0.2,
-				delay: 1.2,
-			})
-		}
+					// Прорисовка справа → налево
+					gsap.to(p, {
+						strokeDashoffset: 0,
+						duration: 2.2,
+						ease: 'power2.inOut',
+						delay: baseDelay + index * 0.5, // асинхронно: одна за другой
+					})
+				})
+			}
+
+			// ======= ПУЛЬСЫ НА ВЕРХНЕМ СЛОЕ (pulseRef) — КАК БЫЛО, НО С ЛЁГКОЙ ЗАДЕРЖКОЙ =======
+			if (pulseRef.current) {
+				const pulsePaths = pulseRef.current.querySelectorAll('path')
+
+				pulsePaths.forEach((p: SVGPathElement, index) => {
+					const length = p.getTotalLength()
+					const beamLength = 80 // длина "сигнала"
+
+					// Одна короткая "черта" + длинный пробел
+					gsap.set(p, {
+						strokeDasharray: `${beamLength} ${length}`,
+						strokeDashoffset: 0,
+					})
+
+					// Луч едет СПРАВА → НАЛЕВО
+					gsap.fromTo(
+						p,
+						{ strokeDashoffset: -length }, // старт справа
+						{
+							strokeDashoffset: 0, // уезжает к левому концу
+							duration: 6,
+							repeat: -1,
+							ease: 'none',
+							delay: 2.5 + index * 0.9, // чтобы пошли после первоначальной отрисовки
+						}
+					)
+				})
+			}
+		})
+
+		return () => ctx.revert()
 	}, [])
 
 	return (
 		<>
 			<section className={styles.Hero}>
 				<div className='container'>
-					<span className={styles.leftLine}>
-						<svg
-							xmlns='http://www.w3.org/2000/svg'
-							width='367'
-							height='285'
-							viewBox='0 0 367 285'
-							fill='none'
-						>
-							<path
-								className={styles.svgLine}
-								opacity='0.4'
-								d='M366.5 -64.5V228C366.5 258.928 341.428 284 310.5 284H-33'
-								stroke='url(#paint0_linear_325_5163)'
-								strokeLinecap='round'
-							></path>
-							<defs>
-								<linearGradient
-									id='paint0_linear_325_5163'
-									x1='340'
-									y1='307'
-									x2='363.183'
-									y2='-17.9561'
-									gradientUnits='userSpaceOnUse'
-								>
-									<stop stopColor='#08072B'></stop>
-									<stop
-										offset='0.575586'
-										stopColor='#08072B'
-										stopOpacity='0.38'
-									></stop>
-								</linearGradient>
-							</defs>
-						</svg>
-					</span>
-
 					<div className={styles.titleWrapper}>
-						<span className={styles.leftTree}>
-							<svg
-								width='600'
-								height='400'
-								viewBox='0 0 600 400'
-								fill='none'
-								xmlns='http://www.w3.org/2000/svg'
-							>
-								{/* отзеркаливание по оси X */}
-								<g transform='translate(600, 0) scale(-1, 1)'>
-									<path
-										className={styles.treeMain}
-										d='M140 200 H200'
-										stroke='#ccc'
-										strokeWidth='2'
-										strokeLinecap='round'
-									/>
-									<path
-										className={styles.treeTop}
-										d='M200 200 C 260 200, 260 80, 320 80 H 560'
-										stroke='#ccc'
-										strokeWidth='2'
-										strokeLinecap='round'
-										fill='none'
-									/>
-									<path
-										className={styles.treeThird}
-										d='M200 200 C 260 200, 260 260, 320 260 H 560'
-										stroke='#ccc'
-										strokeWidth='2'
-										strokeLinecap='round'
-										fill='none'
-									/>
-									<path
-										className={styles.treeSecond}
-										d='M200 200 C 260 200, 260 140, 320 140 H 560'
-										stroke='#ccc'
-										strokeWidth='2'
-										strokeLinecap='round'
-										fill='none'
-									/>
-									<path
-										className={styles.treeBottom}
-										d='M200 200 C 260 200, 260 320, 320 320 H 560'
-										stroke='#ccc'
-										strokeWidth='2'
-										strokeLinecap='round'
-										fill='none'
-									/>
-								</g>
-							</svg>
-						</span>
-
-						<div className={styles.leftFirstLogo}></div>
-						<div className={styles.leftSecondLogo}></div>
-						<div className={styles.leftThirdLogo}></div>
-						<div className={styles.leftFourthLogo}></div>
-
-						<h1 className={`${styles.title} split`}>
+						<h1 ref={titleRef} className={`${styles.title} split`}>
 							AI-автоматизация, серверные решения, веб-разработка и
 							ИТ-аутсорсинг
 						</h1>
-						<h2 className={styles.subtitle}>
+						<h2 ref={subtitleRef} className={styles.subtitle}>
 							Мы берём на себя ИТ-инфраструктуру, сервера и поддержку, а также
 							внедряем ИИ-решения, чтобы ваш бизнес работал быстрее, стабильнее
 							и дешевле.
 						</h2>
-
-						<div className={styles.firstLogo}></div>
-						<div className={styles.secondLogo}></div>
-						<div className={styles.thirdLogo}></div>
-						<div className={styles.fourthLogo}></div>
-
-						<span className={styles.rightTree}>
-							<svg
-								width='600'
-								height='400'
-								viewBox='0 0 600 400'
-								fill='none'
-								xmlns='http://www.w3.org/2000/svg'
-							>
-								<path
-									className={styles.treeMain}
-									d='M140 200 H200'
-									stroke='#ccc'
-									strokeWidth='2'
-									strokeLinecap='round'
-								/>
-								<path
-									className={styles.treeTop}
-									d='M200 200 C 260 200, 260 80, 320 80 H 560'
-									stroke='#ccc'
-									strokeWidth='2'
-									strokeLinecap='round'
-									fill='none'
-								/>
-								<path
-									className={styles.treeThird}
-									d='M200 200 C 260 200, 260 260, 320 260 H 560'
-									stroke='#ccc'
-									strokeWidth='2'
-									strokeLinecap='round'
-									fill='none'
-								/>
-								<path
-									className={styles.treeSecond}
-									d='M200 200 C 260 200, 260 140, 320 140 H 560'
-									stroke='#ccc'
-									strokeWidth='2'
-									strokeLinecap='round'
-									fill='none'
-								/>
-								<path
-									className={styles.treeBottom}
-									d='M200 200 C 260 200, 260 320, 320 320 H 560'
-									stroke='#ccc'
-									strokeWidth='2'
-									strokeLinecap='round'
-									fill='none'
-								/>
-							</svg>
-						</span>
 					</div>
 
-					<span className={styles.rightLine}>
+					
+
+					<span className={styles.rightTree}>
+						{/* Базовые линии (D5D9E5), которые один раз "рисуются" справа налево */}
 						<svg
+							ref={treeRef}
 							xmlns='http://www.w3.org/2000/svg'
 							width='600'
-							height='306'
-							viewBox='0 0 600 306'
+							height='420'
+							viewBox='0 0 600 420'
 							fill='none'
 						>
 							<path
-								className={styles.svgLine}
-								opacity='0.5'
-								d='M790 305H465C434.072 305 409 279.928 409 249V203C409 172.072 383.928 147 353 147H57C26.0721 147 1 121.928 1 91V-184'
-								stroke='url(#paint0_linear_325_5164)'
+								d='M 100 210 H 140 C 220 210 220 30 320 30 H 600'
+								stroke='#D5D9E5'
+								strokeWidth='2'
 								strokeLinecap='round'
-							></path>
-							<defs>
-								<linearGradient
-									id='paint0_linear_325_5164'
-									x1='902.121'
-									y1='327.483'
-									x2='125.199'
-									y2='-406.155'
-									gradientUnits='userSpaceOnUse'
-								>
-									<stop stopColor='#08072B'></stop>
-									<stop
-										offset='0.805696'
-										stopColor='#08072B'
-										stopOpacity='0.38'
-									></stop>
-								</linearGradient>
-							</defs>
+							/>
+							<path
+								d='M 0 210 H 140 C 220 210 220 150 320 150 H 600'
+								stroke='#D5D9E5'
+								strokeWidth='2'
+								strokeLinecap='round'
+							/>
+							<path
+								d='M 0 210 H 140 C 220 210 220 270 320 270 H 600'
+								stroke='#D5D9E5'
+								strokeWidth='2'
+								strokeLinecap='round'
+							/>
+							<path
+								d='M 0 210 H 140 C 220 210 220 390 320 390 H 600'
+								stroke='#D5D9E5'
+								strokeWidth='2'
+								strokeLinecap='round'
+							/>
+						</svg>
+
+						{/* Верхний слой — пульсирующие лучи */}
+						<svg
+							ref={pulseRef}
+							xmlns='http://www.w3.org/2000/svg'
+							width='600'
+							height='420'
+							viewBox='0 0 600 420'
+							fill='none'
+							className={styles.pulseLayer}
+						>
+							<path
+								d='M 100 210 H 140 C 220 210 220 30 320 30 H 600'
+								stroke='green'
+								strokeWidth='2'
+								strokeLinecap='round'
+							/>
+							<path
+								d='M 0 210 H 140 C 220 210 220 150 320 150 H 600'
+								stroke='green'
+								strokeWidth='2'
+								strokeLinecap='round'
+							/>
+							<path
+								d='M 0 210 H 140 C 220 210 220 270 320 270 H 600'
+								stroke='green'
+								strokeWidth='2'
+								strokeLinecap='round'
+							/>
+							<path
+								d='M 0 210 H 140 C 220 210 220 390 320 390 H 600'
+								stroke='green'
+								strokeWidth='2'
+								strokeLinecap='round'
+							/>
 						</svg>
 					</span>
 				</div>
