@@ -1,13 +1,13 @@
-import { Inter } from 'next/font/google'
+import { PT_Sans_Narrow } from 'next/font/google'
 
 import Header from '@/components/Header'
 import '@/styles/global.scss'
 import '@/styles/reset.scss'
 
-const roboto = Inter({
+const pt_Sans_Narrow = PT_Sans_Narrow({
 	subsets: ['latin'],
-	weight: ['300', '400', '500', '700'], // какие тебе нужны
-	variable: '--font-inter',
+	weight: ['400', '700'], // какие тебе нужны
+	variable: '--font-pt_Sans_Narrow',
 })
 
 export default function RootLayout({
@@ -16,7 +16,7 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang='en' className={roboto.className}>
+		<html lang='ru' className={pt_Sans_Narrow.className}>
 			<body>
 				<Header />
 				<main>{children}</main>
