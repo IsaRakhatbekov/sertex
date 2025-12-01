@@ -1,0 +1,127 @@
+/* Preloader.module.scss */
+.preloader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background: #ffffff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 9999;
+	transition: opacity 0.3s ease, visibility 0.3s ease;
+
+	&.fadeOut {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
+.content {
+	position: relative;
+	width: 300px;
+	height: 300px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.sphere {
+	position: relative;
+	width: 250px;
+	height: 250px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Внутренний круг (сфера) с плавным радиальным градиентом */
+.innerCircle {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 150px;
+	height: 150px;
+	border-radius: 50%; /* Круглая форма ANNOTATION4MARKER */
+	background: radial-gradient(
+		circle,
+		rgba(100, 181, 246, 0.6) 0%,
+		rgba(100, 181, 246, 0) 70%
+	);
+	/* Анимация расширения (волна от центра) */
+	animation: wavePulse 1.5s ease-out infinite;
+}
+
+/* Кольца (волны) */
+.ring {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border: 1px solid #64b5f6;
+	border-radius: 50%; /* Делаем полное окружение */
+	animation: pulse 1.5s ease-in-out infinite;
+
+	/* Размеры и прозрачность колец */
+	&:nth-child(2) {
+		/* первое кольцо (для :nth-child числа смещение в DOM) */
+		width: 450px;
+		height: 450px;
+		margin: 0;
+		opacity: 0.8;
+	}
+	&:nth-child(3) {
+		width: 400px;
+		height: 400px;
+		opacity: 0.6;
+	}
+	&:nth-child(4) {
+		width: 300px;
+		height: 300px;
+		opacity: 0.4;
+	}
+	&:nth-child(5) {
+		width: 200px;
+		height: 200px;
+		opacity: 0.2;
+	}
+}
+
+/* Анимация расширения-стиска кольца */
+@keyframes pulse {
+	0%,
+	100% {
+		transform: translate(-50%, -50%) scale(1);
+		opacity: 1;
+		border-color: #64b5f6;
+	}
+	50% {
+		transform: translate(-50%, -50%) scale(1.2);
+		opacity: 0.5;
+		border-color: #42a5f5;
+	}
+}
+
+/* Анимация волны внутренней сферы */
+@keyframes wavePulse {
+	0% {
+		transform: translate(-50%, -50%) scale(0.5);
+		opacity: 0.6;
+	}
+	100% {
+		transform: translate(-50%, -50%) scale(2.5);
+		opacity: 0;
+	}
+}
+
+.percentage {
+	position: relative;
+	z-index: 2;
+	font-size: 48px;
+	font-weight: 700;
+	color: #64b5f6;
+	font-family: var(--font-pt_Sans_Narrow);
+	text-shadow: 0 0 20px rgba(100, 181, 246, 0.3);
+}

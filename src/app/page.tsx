@@ -1,5 +1,6 @@
 'use client'
 
+import AIChat, { AIChatRef } from '@/components/AIChat/AIChat'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
@@ -12,136 +13,103 @@ export default function Home() {
 	const titleRef = useRef<HTMLHeadingElement | null>(null)
 	const subtitleRef = useRef<HTMLHeadingElement | null>(null)
 	const heroRef = useRef<HTMLElement | null>(null)
-	const aiChatRef = useRef<HTMLDivElement | null>(null)
-	const chatBubble1Ref = useRef<HTMLDivElement | null>(null)
-	const chatBubble2Ref = useRef<HTMLDivElement | null>(null)
-	const chatInputRef = useRef<HTMLDivElement | null>(null)
+	const aiChatComponentRef = useRef<AIChatRef>(null)
 
 	useLayoutEffect(() => {
 		const ctx = gsap.context(() => {
-			// ============================
-			// 1. АНИМАЦИЯ МИНИ-ЧАТА (ПЕРВЫМ!)
-			// ============================
+			// Получаем refs из компонента AIChat
+			const aiChatRef = aiChatComponentRef.current?.aiChatRef
+			const chatBubble1Ref = aiChatComponentRef.current?.chatBubble1Ref
+			const chatBubble2Ref = aiChatComponentRef.current?.chatBubble2Ref
+			const chatInputRef = aiChatComponentRef.current?.chatInputRef
 
-			// Начальное состояние - чат полностью скрыт
-			gsap.set(aiChatRef.current, {
-				opacity: 1,
-				scaleX: 0,
-				scaleY: 0.05,
-				height: 2,
+			// Проверяем что все элементы существуют
+			if (!aiChatRef || !chatBubble1Ref || !chatBubble2Ref || !chatInputRef) {
+				return
+			}
+
+			// Устанавливаем начальное состояние
+			gsap.set([chatBubble1Ref, chatBubble2Ref, chatInputRef], {
+				opacity: 0,
+				y: 20,
 			})
 
-			gsap.set(
-				[chatBubble1Ref.current, chatBubble2Ref.current, chatInputRef.current],
-				{
-					opacity: 0,
-					y: 20,
-				}
-			)
-
-			// Главный timeline
 			const mainTimeline = gsap.timeline()
 
-			// 1. Рисуем линию от центра в стороны
-			mainTimeline.to(aiChatRef.current, {
-				scaleX: 1,
-				duration: 0.6,
-				ease: 'power2.inOut',
-			})
+			// Анимация заголовка (начинает сразу)
+			if (titleRef.current) {
+				const splitTitle = new SplitText(titleRef.current, {
+					type: 'words,chars',
+					wordsClass: styles.word,
+					charsClass: styles.char,
+				})
 
-			// 2. Расширяем вверх и вниз
-			mainTimeline.to(
-				aiChatRef.current,
-				{
-					scaleY: 1,
-					height: 'auto',
-					duration: 0.7,
-					ease: 'power3.out',
-				},
-				'+=0.2'
-			)
+				mainTimeline.from(
+					splitTitle.chars,
+					{
+						duration: 0.8,
+						opacity: 0,
+						y: 50,
+						rotationX: -50,
+						transformOrigin: '-100% -100% -10',
+						stagger: 0.04,
+						ease: 'back.out(0.4)',
+					},
+					1
+				)
+			}
 
-			// 3. Появление первого сообщения
+			// Первый пузырек - начинается вместе с title
 			mainTimeline.to(
-				chatBubble1Ref.current,
+				chatBubble1Ref,
 				{
 					opacity: 1,
 					y: 0,
 					duration: 0.5,
 					ease: 'back.out(1.5)',
 				},
-				'+=0.3'
+				2 // Начинается с 0 секунды (вместе с title)
 			)
 
-			// 4. Появление второго сообщения
+			// Второй пузырек - с небольшой задержкой
 			mainTimeline.to(
-				chatBubble2Ref.current,
+				chatBubble2Ref,
 				{
 					opacity: 1,
 					y: 0,
 					duration: 0.5,
 					ease: 'back.out(1.5)',
 				},
-				'+=0.3'
+				2.4 // Начинается через 0.3 сек после начала
 			)
 
-			// 5. Появление поля ввода
+			// Input - еще чуть позже
 			mainTimeline.to(
-				chatInputRef.current,
+				chatInputRef,
 				{
 					opacity: 1,
 					y: 0,
 					duration: 0.5,
 					ease: 'back.out(1.5)',
 				},
-				'+=0.2'
+				0 // Начинается через 0.6 сек после начала
 			)
 
-			// ============================
-			// 2. АНИМАЦИЯ TITLE (через 0.5 сек после начала чата)
-			// ============================
-			const splitTitle = new SplitText(titleRef.current, {
-				type: 'words,chars',
-				wordsClass: styles.word,
-				charsClass: styles.char,
-			})
+			// Анимация подзаголовка
+			if (subtitleRef.current) {
+				const splitSubtitle = new SplitText(subtitleRef.current, {
+					type: 'words',
+					wordsClass: styles.word,
+				})
 
-			const splitSubtitle = new SplitText(subtitleRef.current, {
-				type: 'words',
-				wordsClass: styles.word,
-			})
-
-			// Title начинается через 0.5 секунды от начала (не от конца чата!)
-			mainTimeline.from(
-				splitTitle.chars,
-				{
-					duration: 0.8,
-					opacity: 0,
-					y: 50,
-					rotationX: -50,
-					transformOrigin: '-100% -100% -10',
-					stagger: 0.04,
-					ease: 'back.out(0.4)',
-				},
-				1 // Начинается на 0.5 секунде от начала timeline
-			)
-
-			// ============================
-			// 3. SUBTITLE (после окончания title)
-			// ============================
-			// Вычисляем когда закончится title: 0.5 (delay) + 0.8 (duration) + (кол-во символов * 0.04 stagger)
-			// Примерно на 2-3 секунде, поэтому используем '-=0' чтобы начать сразу после title
-			mainTimeline.from(
-				splitSubtitle.words,
-				{
+				mainTimeline.from(splitSubtitle.words, {
 					duration: 1,
 					opacity: 0,
 					y: 30,
 					stagger: 0.02,
 					ease: 'power3.out',
-				}
-				// Без позиции - начнется сразу после предыдущей анимации
-			)
+				})
+			}
 		})
 
 		return () => ctx.revert()
@@ -164,56 +132,8 @@ export default function Home() {
 							и дешевле.
 						</h2>
 
-						{/* Мини-чат */}
-						<div className={styles.aiChat} ref={aiChatRef}>
-							<div className={styles.chatMessages}>
-								{/* Сообщение от AI */}
-								<div className={styles.chatBubble} ref={chatBubble1Ref}>
-									<div className={styles.bubbleContent}>
-										<span className={styles.bubbleLabel}>AI Assistant</span>
-										<p className={styles.bubbleText}>
-											Привет! 👋 Чем могу помочь?
-										</p>
-									</div>
-								</div>
-
-								{/* Второе сообщение от AI */}
-								<div className={styles.chatBubble} ref={chatBubble2Ref}>
-									<div className={styles.bubbleContent}>
-										<p className={styles.bubbleText}>
-											Готов оптимизировать ваш бизнес с помощью AI! 🚀
-										</p>
-									</div>
-								</div>
-							</div>
-
-							{/* Поле ввода */}
-							<div className={styles.chatInput} ref={chatInputRef}>
-								<input
-									type='text'
-									placeholder='Напишите ваш вопрос...'
-									className={styles.input}
-									// disabled — убери эту строку!
-								/>
-								<button className={styles.sendButton}>
-									<svg width='20' height='20' viewBox='0 0 24 24' fill='none'>
-										<path
-											d='M22 2L11 13'
-											stroke='currentColor'
-											strokeWidth='2'
-											strokeLinecap='round'
-											strokeLinejoin='round'
-										/>
-										<path
-											d='M22 2L15 22L11 13L2 9L22 2Z'
-											stroke='currentColor'
-											strokeWidth='2'
-											strokeLinecap='round'
-											strokeLinejoin='round'
-										/>
-									</svg>
-								</button>
-							</div>
+						<div className={styles.chatWrapper}>
+							<AIChat ref={aiChatComponentRef} variant='default' />
 						</div>
 					</div>
 				</div>
@@ -298,15 +218,27 @@ export default function Home() {
 						</li>
 					</ul>
 
-					<button>Посмотреть детально</button>
+					<button>Посмотреть другие решения</button>
 				</div>
 			</section>
 
 			{/* ========================================================== */}
 			<section className={styles.Solutions}>
 				<div className='container'>
-					<h2>Solutions</h2>
-					<h3>problems -- solutions</h3>
+					<div className={styles.wrapper}>
+						<div className={styles.content}>
+							<h2 className={styles.title}>Еще не нашли решение?</h2>
+							{/* Изменен подзаголовок для выделения ИИ */}
+							<h3 className={styles.subtitle}>
+								Попробуйте воспользоваться нашим{' '}
+								<span className={styles.aiAccent}>ИИ</span> помощником!
+							</h3>
+						</div>
+
+						<div className={styles.chatWrapper}>
+							<AIChat variant='solutions' />
+						</div>
+					</div>
 				</div>
 			</section>
 			<section className={styles.Details}>

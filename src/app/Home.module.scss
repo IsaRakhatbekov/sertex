@@ -4,12 +4,19 @@
 	height: 100vh;
 	overflow-x: hidden;
 	background: url('../../public/test2.png') no-repeat center/cover;
-	background-attachment: fixed;
+	background-attachment: scroll; /* changed from fixed */
+
+	transform: translateZ(0); /* stabilize layer rendering */
+	backface-visibility: hidden; /* helps prevent flickering */
 	@media not all and (min-resolution: 0.001dpcm) {
 		@supports (-webkit-appearance: none) {
-			.Hero {
-				background-attachment: scroll;
-			}
+			background-attachment: scroll;
+		}
+	}
+
+	@media not all and (min-resolution: 0.001dpcm) {
+		@supports (-webkit-appearance: none) {
+			background-attachment: scroll;
 		}
 	}
 
@@ -20,11 +27,11 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background: #ffffff;
+		background: #fff;
 		clip-path: polygon(0 0, 50% 0, 70% 100%, 0 100%);
 		z-index: 1;
-		filter: drop-shadow(20px 0 30px rgba(0, 0, 0, 0.25));
-		transform: translateZ(20px);
+		filter: none; /* remove drop-shadow to avoid rendering delay */
+		transform: none; /* remove 3D transform */
 	}
 
 	&::after {
@@ -86,166 +93,9 @@
 		margin-bottom: 30px;
 	}
 
-	// ============================
-	// МИНИ-ЧАТ
-	// ============================
-	.aiChat {
+	.chatWrapper {
 		width: 100%;
-		max-width: 600px;
-		background: #ffffff;
-		border-radius: 20px;
-		padding: 20px;
-		box-shadow: 0 10px 40px rgba(100, 181, 246, 0.15),
-			0 5px 20px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(100, 181, 246, 0.1);
-		position: relative;
-		transform-origin: center center; // Важно для анимации от центра
-		overflow: hidden; // Скрываем контент во время анимации
-
-		// Тонкая светящаяся рамка
-		&::before {
-			content: '';
-			position: absolute;
-			inset: 0;
-			border-radius: 20px;
-			padding: 2px;
-			background: linear-gradient(135deg, #64b5f6, #42a5f5, #64b5f6);
-			-webkit-mask: linear-gradient(#fff 0 0) content-box,
-				linear-gradient(#fff 0 0);
-			-webkit-mask-composite: xor;
-			mask-composite: exclude;
-			opacity: 0.5;
-		}
-	}
-
-	.chatMessages {
-		display: flex;
-		flex-direction: column;
-		gap: 12px;
-		margin-bottom: 15px;
-	}
-
-	.chatBubble {
-		display: flex;
-		align-items: flex-start;
-		// animation: slideIn 0.5s ease;
-	}
-
-	@keyframes slideIn {
-		from {
-			opacity: 0;
-			transform: translateY(10px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
-	.bubbleContent {
-		background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
-		padding: 12px 16px;
-		border-radius: 18px 18px 18px 4px; // Можно менять
-		max-width: 85%;
-		box-shadow: 0 2px 8px rgba(100, 181, 246, 0.3);
-		position: relative;
-
-		// Хвостик
-		&::before {
-			content: '';
-			position: absolute;
-			bottom: 0;
-			left: -8px;
-			width: 0;
-			height: 0;
-			border-style: solid;
-			border-width: 0 0 12px 12px;
-			border-color: transparent transparent #42a5f5 transparent;
-		}
-	}
-
-	.bubbleLabel {
-		display: block;
-		font-size: 11px;
-		font-weight: 600;
-		color: rgba(255, 255, 255, 0.8);
-		margin-bottom: 4px;
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
-	}
-
-	.bubbleText {
-		font-size: 15px;
-		line-height: 1.5;
-		color: #ffffff;
-		margin: 0;
-		font-family: var(--font-pt_Sans_Narrow);
-	}
-
-	.chatInput {
-		display: flex;
-		align-items: center;
-		gap: 10px;
-		padding: 8px;
-		background: #f5f7fa;
-		border-radius: 12px; // Можно менять
-		border: 2px solid transparent;
-		transition: all 0.3s ease;
-
-		&:focus-within {
-			border-color: #64b5f6;
-			background: #ffffff;
-			box-shadow: 0 0 0 4px rgba(100, 181, 246, 0.1);
-		}
-	}
-
-	.input {
-		flex: 1;
-		border: none;
-		background: transparent;
-		padding: 8px 12px;
-		font-size: 14px;
-		font-family: var(--font-pt_Sans_Narrow);
-		color: #333;
-		outline: none;
-		cursor: pointer;
-
-		&::placeholder {
-			color: #a0a0a0;
-		}
-	}
-
-	.sendButton {
-		width: 36px;
-		height: 36px;
-		min-width: 36px;
-		border-radius: 8px; // Можно менять
-		background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
-		border: none;
-		color: #ffffff;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		cursor: pointer;
-		transition: all 0.3s ease;
-		box-shadow: 0 2px 8px rgba(100, 181, 246, 0.3);
-
-		&:hover {
-			transform: scale(1.05);
-			box-shadow: 0 4px 12px rgba(100, 181, 246, 0.4);
-		}
-
-		&:active {
-			transform: scale(0.95);
-		}
-
-		svg {
-			transform: rotate(0deg);
-			transition: transform 0.3s ease;
-		}
-
-		&:hover svg {
-			transform: rotate(45deg);
-		}
+		max-width: 500px;
 	}
 }
 
@@ -347,36 +197,43 @@
 		&:nth-child(3) {
 			grid-column: span 1;
 			grid-row: span 1;
+			background: url('../../public/kor.png') no-repeat bottom/cover;
 		}
 
 		&:nth-child(4) {
 			grid-column: span 1;
 			grid-row: span 1;
+			background: url('../../public/saas.png') no-repeat top/cover;
 		}
 
 		&:nth-child(5) {
 			grid-column: span 1;
 			grid-row: span 1;
+			background: url('../../public/servers.jpeg') no-repeat top/cover;
 		}
 
 		&:nth-child(6) {
 			grid-column: span 2;
 			grid-row: span 1;
+			background: url('../../public/po.png') no-repeat center/cover;
 		}
 
 		&:nth-child(7) {
 			grid-column: span 1;
 			grid-row: span 1;
+			background: url('../../public/devops2.png') no-repeat top/cover;
 		}
 
 		&:nth-child(8) {
 			grid-column: span 1;
 			grid-row: span 1;
+			background: url('../../public/backup.png') no-repeat center/cover;
 		}
 
 		&:nth-child(9) {
 			grid-column: span 2;
 			grid-row: span 1;
+			background: url('../../public/24:7.png') no-repeat bottom/cover;
 		}
 
 		h3 {
@@ -432,6 +289,8 @@
 		transition: all 0.3s ease;
 		box-shadow: 0 4px 15px rgba(100, 181, 246, 0.3);
 		font-family: var(--font-pt_Sans_Narrow);
+		display: block;
+		margin: 0 auto;
 
 		&:hover {
 			transform: translateY(-2px);
@@ -444,14 +303,57 @@
 	}
 }
 
+// Solutions.module.scss
 .Solutions {
-	padding: 100px 0;
-	text-align: center;
+	padding: 80px 0;
+	background: #f8fafc;
+}
 
-	h2 {
-		font-size: 50px;
-		line-height: 1.3em;
-	}
+.wrapper {
+	gap: 40px;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.title {
+	font-size: 50px;
+	font-weight: 700;
+	margin-bottom: 20px;
+	color: #1a1a1a;
+	text-align: center;
+}
+
+.subtitle {
+	font-size: 30px; /* Уменьшено для лучшей иерархии */
+	text-align: center;
+	line-height: 1.6;
+	color: #444; /* Сделано темнее */
+	font-weight: 400; /* Не слишком жирный */
+	margin-bottom: 30px; /* Добавлен отступ */
+}
+
+/* Стили для акцента "ИИ" внутри подзаголовка */
+.aiAccent {
+	color: #00c6ff; /* Неоновый акцент */
+	font-weight: 700;
+	text-shadow: 0 0 5px rgba(0, 198, 255, 0.5); /* Легкое свечение для акцента */
+}
+
+.chatWrapper {
+	width: 100%;
+	max-width: 800px;
+	height: 350px;
+
+	/* Стили для выделения темного чата (Вариант А: Мягкая Глубина) */
+	padding: 15px; /* Дополнительный отступ вокруг чата */
+	background: #ffffff; /* Белый фон для карточки */
+	border-radius: 24px;
+
+	// Мягкая, многослойная тень для глубины (профессиональный, не детский вид)
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05),
+		/* Легкая верхняя тень */ 0 20px 40px rgba(0, 0, 0, 0.1),
+		/* Основная тень */ 0 0 0 1px rgba(0, 0, 0, 0.05); /* Тонкая обводка */
 }
 
 .Details {
