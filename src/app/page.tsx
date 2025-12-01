@@ -1,6 +1,6 @@
 'use client'
 
-import AIChat, { AIChatRef } from '@/components/AIChat/AIChat'
+import AIChat from '@/components/AiChat/AiChat'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
@@ -13,27 +13,9 @@ export default function Home() {
 	const titleRef = useRef<HTMLHeadingElement | null>(null)
 	const subtitleRef = useRef<HTMLHeadingElement | null>(null)
 	const heroRef = useRef<HTMLElement | null>(null)
-	const aiChatComponentRef = useRef<AIChatRef>(null)
 
 	useLayoutEffect(() => {
 		const ctx = gsap.context(() => {
-			// Получаем refs из компонента AIChat
-			const aiChatRef = aiChatComponentRef.current?.aiChatRef
-			const chatBubble1Ref = aiChatComponentRef.current?.chatBubble1Ref
-			const chatBubble2Ref = aiChatComponentRef.current?.chatBubble2Ref
-			const chatInputRef = aiChatComponentRef.current?.chatInputRef
-
-			// Проверяем что все элементы существуют
-			if (!aiChatRef || !chatBubble1Ref || !chatBubble2Ref || !chatInputRef) {
-				return
-			}
-
-			// Устанавливаем начальное состояние
-			gsap.set([chatBubble1Ref, chatBubble2Ref, chatInputRef], {
-				opacity: 0,
-				y: 20,
-			})
-
 			const mainTimeline = gsap.timeline()
 
 			// Анимация заголовка (начинает сразу)
@@ -58,42 +40,6 @@ export default function Home() {
 					1
 				)
 			}
-
-			// Первый пузырек - начинается вместе с title
-			mainTimeline.to(
-				chatBubble1Ref,
-				{
-					opacity: 1,
-					y: 0,
-					duration: 0.5,
-					ease: 'back.out(1.5)',
-				},
-				2 // Начинается с 0 секунды (вместе с title)
-			)
-
-			// Второй пузырек - с небольшой задержкой
-			mainTimeline.to(
-				chatBubble2Ref,
-				{
-					opacity: 1,
-					y: 0,
-					duration: 0.5,
-					ease: 'back.out(1.5)',
-				},
-				2.4 // Начинается через 0.3 сек после начала
-			)
-
-			// Input - еще чуть позже
-			mainTimeline.to(
-				chatInputRef,
-				{
-					opacity: 1,
-					y: 0,
-					duration: 0.5,
-					ease: 'back.out(1.5)',
-				},
-				0 // Начинается через 0.6 сек после начала
-			)
 
 			// Анимация подзаголовка
 			if (subtitleRef.current) {
@@ -133,7 +79,7 @@ export default function Home() {
 						</h2>
 
 						<div className={styles.chatWrapper}>
-							<AIChat ref={aiChatComponentRef} variant='default' />
+							<AIChat />
 						</div>
 					</div>
 				</div>
@@ -141,13 +87,13 @@ export default function Home() {
 
 			<section className={styles.WhatWeDo}>
 				<div className='container'>
-					<h2>Наши решения</h2>
+					<h2 className={styles.title}>Наши решения</h2>
 					<ul className={styles.list}>
 						<li className={styles.item}>
 							<div className={styles.textWrapper}>
-								<h3>Веб-разработка</h3>
+								<h3>Корпоративное ПО</h3>
 								<p className={styles.text}>
-									Создаём современные корпоративные сайты и онлайн-сервисы.
+									Создаём ПО под задачи компании: учёт, отчёты, процессы.
 								</p>
 							</div>
 						</li>
@@ -184,11 +130,12 @@ export default function Home() {
 								</p>
 							</div>
 						</li>
+
 						<li className={styles.item}>
 							<div className={styles.textWrapper}>
-								<h3>Корпоративное ПО</h3>
+								<h3>Веб-разработка</h3>
 								<p className={styles.text}>
-									Создаём ПО под задачи компании: учёт, отчёты, процессы.
+									Создаём современные корпоративные сайты и онлайн-сервисы.
 								</p>
 							</div>
 						</li>
@@ -222,25 +169,50 @@ export default function Home() {
 				</div>
 			</section>
 
-			{/* ========================================================== */}
-			<section className={styles.Solutions}>
-				<div className='container'>
-					<div className={styles.wrapper}>
-						<div className={styles.content}>
-							<h2 className={styles.title}>Еще не нашли решение?</h2>
-							{/* Изменен подзаголовок для выделения ИИ */}
-							<h3 className={styles.subtitle}>
-								Попробуйте воспользоваться нашим{' '}
-								<span className={styles.aiAccent}>ИИ</span> помощником!
-							</h3>
-						</div>
+			<section className={styles.aiSection}>
+				<div
+					style={{
+						position: 'absolute',
+						top: 0,
+						left: 0,
+						width: '100%',
+						height: '100%',
+						background: "url('../../public/test2.png') no-repeat center/cover",
+						zIndex: -1, // ЗА ВСЕМ!
+					}}
+				/>
 
-						<div className={styles.chatWrapper}>
-							<AIChat variant='solutions' />
-						</div>
+				{/* SVG точки */}
+				<svg
+					style={{
+						position: 'absolute',
+						width: '100%',
+						height: '100%',
+						zIndex: 0,
+					}}
+				>
+					{/* ... */}
+				</svg>
+
+				<div className={styles.orb1} />
+				<div className={styles.orb2} />
+				<div className={styles.orb3} />
+				<div className={styles.wrapper}>
+					<div className={styles.titlesWrapper}>
+						<h2 className={styles.title}>
+							Еще не нашли <span>что ищете?</span>
+						</h2>
+
+						<h3 className={styles.subtitle}>
+							Наш <span>ИИ</span>-ассистент может вам помочь!
+						</h3>
+					</div>
+					<div className={styles.chatWrapper}>
+						<AIChat />
 					</div>
 				</div>
 			</section>
+
 			<section className={styles.Details}>
 				<div className='container'>
 					<h2>Details</h2>

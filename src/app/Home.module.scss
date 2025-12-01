@@ -96,6 +96,7 @@
 	.chatWrapper {
 		width: 100%;
 		max-width: 500px;
+		height: 200px;
 	}
 }
 
@@ -104,12 +105,13 @@
 	background: #0a0a0a; // Темный фон как на картинке
 	position: relative;
 
-	h2 {
+	.title {
 		font-size: clamp(40px, 5vw, 60px);
 		color: #ffffff;
-		margin-bottom: 60px;
-		font-weight: 700;
+		margin-bottom: 80px;
+		font-weight: 400;
 		text-align: center;
+		font-family: var(--font-pt_Sans_Narrow);
 	}
 
 	.list {
@@ -185,7 +187,7 @@
 		&:nth-child(1) {
 			grid-column: span 2;
 			grid-row: span 1;
-			background: url('../../public/card1.jpeg') no-repeat top/cover;
+			background: url('../../public/po.png') no-repeat center/cover;
 		}
 
 		&:nth-child(2) {
@@ -215,7 +217,7 @@
 		&:nth-child(6) {
 			grid-column: span 2;
 			grid-row: span 1;
-			background: url('../../public/po.png') no-repeat center/cover;
+			background: url('../../public/card1.jpeg') no-repeat top/cover;
 		}
 
 		&:nth-child(7) {
@@ -303,65 +305,46 @@
 	}
 }
 
-// Solutions.module.scss
-.Solutions {
-	padding: 80px 0;
-	background: #f8fafc;
-}
-
-.wrapper {
-	gap: 40px;
+$accent-color: #64b5f6;
+.aiSection {
 	display: flex;
+	justify-content: center;
 	align-items: center;
-	flex-direction: column;
-}
-
-.title {
-	font-size: 50px;
-	font-weight: 700;
-	margin-bottom: 20px;
-	color: #1a1a1a;
-	text-align: center;
-}
-
-.subtitle {
-	font-size: 30px; /* Уменьшено для лучшей иерархии */
-	text-align: center;
-	line-height: 1.6;
-	color: #444; /* Сделано темнее */
-	font-weight: 400; /* Не слишком жирный */
-	margin-bottom: 30px; /* Добавлен отступ */
-}
-
-/* Стили для акцента "ИИ" внутри подзаголовка */
-.aiAccent {
-	color: #00c6ff; /* Неоновый акцент */
-	font-weight: 700;
-	text-shadow: 0 0 5px rgba(0, 198, 255, 0.5); /* Легкое свечение для акцента */
-}
-
-.chatWrapper {
-	width: 100%;
-	max-width: 800px;
-	height: 350px;
-
-	/* Стили для выделения темного чата (Вариант А: Мягкая Глубина) */
-	padding: 15px; /* Дополнительный отступ вокруг чата */
-	background: #ffffff; /* Белый фон для карточки */
-	border-radius: 24px;
-
-	// Мягкая, многослойная тень для глубины (профессиональный, не детский вид)
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05),
-		/* Легкая верхняя тень */ 0 20px 40px rgba(0, 0, 0, 0.1),
-		/* Основная тень */ 0 0 0 1px rgba(0, 0, 0, 0.05); /* Тонкая обводка */
-}
-
-.Details {
 	padding: 100px 0;
-	text-align: center;
+	// НЕ НУЖЕН background здесь!
+	position: relative;
+	overflow: hidden;
 
-	h2 {
+	.wrapper {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		text-align: center;
+		gap: 10px;
+	}
+
+	.chatWrapper {
+		width: 900px;
+		height: 500px;
+	}
+
+	.title {
+		color: #333;
 		font-size: 50px;
+		font-weight: 700;
 		line-height: 1.3em;
+		& span {
+			color: #64b5f6;
+		}
+	}
+
+	.subtitle {
+		color: #333;
+		font-size: 40px;
+		font-weight: 400;
+		line-height: 1.3em;
+		& span {
+			color: #64b5f6;
+		}
 	}
 }
