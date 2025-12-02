@@ -65,10 +65,33 @@ export default function Home() {
 		<>
 			<section className={styles.Hero} ref={heroRef}>
 				<div className={`${styles.container} container`}>
+					<div className={styles.dotesWrapper}>
+						<svg
+							style={{
+								position: 'absolute',
+								width: '100%',
+								height: '100%',
+								zIndex: 0,
+							}}
+							xmlns='http://www.w3.org/2000/svg'
+						>
+							<defs>
+								<pattern
+									id='dottedGrid'
+									width='30'
+									height='30'
+									patternUnits='userSpaceOnUse'
+								>
+									<circle cx='2' cy='2' r='1' fill='rgba(0,0,0,0.10)' />
+								</pattern>
+							</defs>
+							<rect width='100%' height='100%' fill='url(#dottedGrid)' />
+						</svg>
+					</div>
 					<div className={styles.titleWrapper}>
 						<h1 ref={titleRef} className={`${styles.title} split`}>
-							<span>AI</span>-автоматизация <br /> серверные{' '}
-							<span>решения</span>
+							<span>AI</span>-автоматизация <br /> серверные
+							<span> решения</span>
 							<br />
 							<span>ИТ</span>-аутсорсинг, веб-разработка
 						</h1>
@@ -77,9 +100,11 @@ export default function Home() {
 							внедряем ИИ-решения, чтобы ваш бизнес работал быстрее, стабильнее
 							и дешевле.
 						</h2>
-
-						<div className={styles.chatWrapper}>
-							<AIChat />
+						<div className={styles.btnWrapper}>
+							<button className={styles.btn}>
+								Выберите услуги с помощью ИИ
+							</button>
+							<button className={styles.btn}>Наши решения</button>
 						</div>
 					</div>
 				</div>
@@ -165,7 +190,7 @@ export default function Home() {
 						</li>
 					</ul>
 
-					<button>Посмотреть другие решения</button>
+					<button className={styles.btn}>Узнайте больше об услугах </button>
 				</div>
 			</section>
 
@@ -181,8 +206,6 @@ export default function Home() {
 						zIndex: -1, // ЗА ВСЕМ!
 					}}
 				/>
-
-				{/* SVG точки */}
 				<svg
 					style={{
 						position: 'absolute',
@@ -190,8 +213,19 @@ export default function Home() {
 						height: '100%',
 						zIndex: 0,
 					}}
+					xmlns='http://www.w3.org/2000/svg'
 				>
-					{/* ... */}
+					<defs>
+						<pattern
+							id='dottedGrid'
+							width='30'
+							height='30'
+							patternUnits='userSpaceOnUse'
+						>
+							<circle cx='2' cy='2' r='1' fill='rgba(0,0,0,0.15)' />
+						</pattern>
+					</defs>
+					<rect width='100%' height='100%' fill='url(#dottedGrid)' />
 				</svg>
 
 				<div className={styles.orb1} />
