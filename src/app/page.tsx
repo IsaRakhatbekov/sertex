@@ -1,18 +1,21 @@
 'use client'
 
-import AIChat from '@/components/AiChat/AiChat'
+import AiChat from '@/components/AiChat/AiChat'
 import gsap from 'gsap'
+import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 import { useLayoutEffect, useRef } from 'react'
 import styles from './Home.module.scss'
-
-gsap.registerPlugin(SplitText, ScrollTrigger)
+gsap.registerPlugin(ScrambleTextPlugin, ScrollTrigger)
 
 export default function Home() {
 	const titleRef = useRef<HTMLHeadingElement | null>(null)
 	const subtitleRef = useRef<HTMLHeadingElement | null>(null)
 	const heroRef = useRef<HTMLElement | null>(null)
+	const aboutRef = useRef<HTMLElement | null>(null)
+	const topLeftRef = useRef<HTMLDivElement | null>(null)
+	const whyRef = useRef<HTMLDivElement>(null)
 
 	useLayoutEffect(() => {
 		const ctx = gsap.context(() => {
@@ -54,6 +57,149 @@ export default function Home() {
 					y: 30,
 					stagger: 0.02,
 					ease: 'power3.out',
+				})
+			}
+
+			if (topLeftRef.current) {
+				const subTitles = topLeftRef.current.querySelectorAll(
+					`.${styles.subTitle}`
+				)
+				const topWrapper = topLeftRef.current.parentElement // это div.topWrapper
+
+				if (topWrapper) {
+					gsap.fromTo(
+						subTitles,
+						{ x: -1500 }, // стартовое состояние
+						{
+							x: 0,
+							stagger: 0.2,
+							duration: 0.8,
+							ease: 'power3.out',
+							scrollTrigger: {
+								trigger: topWrapper, // следим за видимостью topWrapper
+								start: 'top 80%', // когда верх блока достигнет 80% экрана
+								end: 'bottom 90%', // до какого момента длится анимация
+								scrub: true, // привязка к скроллу
+							},
+						}
+					)
+				}
+			}
+
+			if (topLeftRef.current) {
+				const topWrapper = topLeftRef.current.parentElement
+				const topRight = topWrapper?.querySelector(`.${styles.topRight}`)
+
+				if (topRight) {
+					const paragraphs = topRight.querySelectorAll(`.${styles.text}`)
+
+					// стартовое состояние — справа
+					gsap.set(paragraphs, { x: 200, opacity: 0 })
+
+					// триггер для запуска анимации, когда секция видна
+					ScrollTrigger.create({
+						trigger: topWrapper,
+						start: 'top 80%',
+						onEnter: () => {
+							gsap.to(paragraphs, {
+								x: 0,
+								opacity: 1,
+								stagger: 0.2, // задержка между строчками
+								duration: 0.8,
+								ease: 'power3.out',
+							})
+						},
+						once: true, // срабатывает один раз
+					})
+				}
+			}
+
+			// Анимация для why items с stagger эффектом и анимацией внутренних элементов
+			if (whyRef.current) {
+				const whyItems = whyRef.current.querySelectorAll(`.${styles.item}`)
+
+				// Устанавливаем начальное состояние для всех элементов
+				gsap.set(whyItems, {
+					y: 100,
+					opacity: 0,
+				})
+
+				whyItems.forEach(item => {
+					const innerTitle = item.querySelector(`.${styles.innerTitle}`)
+					const innerText = item.querySelector(`.${styles.innerText}`)
+
+					if (innerTitle) {
+						gsap.set(innerTitle, {
+							y: 30,
+							opacity: 0,
+						})
+					}
+
+					if (innerText) {
+						gsap.set(innerText, {
+							y: 30,
+							opacity: 0,
+						})
+					}
+				})
+
+				// Создаем главную timeline
+				const mainWhyTimeline = gsap.timeline({
+					scrollTrigger: {
+						trigger: whyRef.current,
+						start: 'top 70%',
+						end: 'top 35%',
+						scrub: true,
+						toggleActions: 'play reverse play reverse',
+					},
+				})
+
+				// Анимация для каждого блока с внутренними элементами
+				whyItems.forEach((item, index) => {
+					const innerTitle = item.querySelector(`.${styles.innerTitle}`)
+					const innerText = item.querySelector(`.${styles.innerText}`)
+
+					const position = index * 0.5 // Базовая задержка для каждого блока
+
+					// Блок
+					mainWhyTimeline.to(
+						item,
+						{
+							y: 0,
+							opacity: 1,
+							duration: 1,
+							ease: 'power2.out',
+						},
+						position
+					)
+
+					// Заголовок (через 0.3с после появления блока)
+					if (innerTitle) {
+						mainWhyTimeline.to(
+							innerTitle,
+							{
+								y: 0,
+								opacity: 1,
+								duration: 0.7,
+								ease: 'power3.out',
+							},
+							position + 0.8
+						)
+					}
+
+					// Текст (через 0.6с после появления блока)
+					if (innerText) {
+						mainWhyTimeline.to(
+							innerText,
+							{
+								y: 0,
+								opacity: 1,
+								duration: 0.7,
+								ease: 'power3.out',
+							},
+							position + 1.4
+						)
+					}
 				})
 			}
 		})
@@ -101,18 +247,20 @@ export default function Home() {
 							и дешевле.
 						</h2>
 						<div className={styles.btnWrapper}>
-							<button className={styles.btn}>
-								Выберите услуги с помощью ИИ
-							</button>
-							<button className={styles.btn}>Наши решения</button>
+							<a className={styles.btn} href='#aiSection'>
+								Решите проблему с помощью ИИ
+							</a>
+							<a href='#WhatWeDo' className={styles.btn}>
+								Наши услуги
+							</a>
 						</div>
 					</div>
 				</div>
 			</section>
 
-			<section className={styles.WhatWeDo}>
+			<section className={styles.WhatWeDo} id='WhatWeDo'>
 				<div className='container'>
-					<h2 className={styles.title}>Наши решения</h2>
+					<h2 className={styles.title}>Наши услуги</h2>
 					<ul className={styles.list}>
 						<li className={styles.item}>
 							<div className={styles.textWrapper}>
@@ -190,66 +338,79 @@ export default function Home() {
 						</li>
 					</ul>
 
-					<button className={styles.btn}>Узнайте больше об услугах </button>
+					<button className={styles.btn}>Еще</button>
 				</div>
 			</section>
 
-			<section className={styles.aiSection}>
-				<div
-					style={{
-						position: 'absolute',
-						top: 0,
-						left: 0,
-						width: '100%',
-						height: '100%',
-						background: "url('../../public/test2.png') no-repeat center/cover",
-						zIndex: -1, // ЗА ВСЕМ!
-					}}
-				/>
-				<svg
-					style={{
-						position: 'absolute',
-						width: '100%',
-						height: '100%',
-						zIndex: 0,
-					}}
-					xmlns='http://www.w3.org/2000/svg'
-				>
-					<defs>
-						<pattern
-							id='dottedGrid'
-							width='30'
-							height='30'
-							patternUnits='userSpaceOnUse'
-						>
-							<circle cx='2' cy='2' r='1' fill='rgba(0,0,0,0.15)' />
-						</pattern>
-					</defs>
-					<rect width='100%' height='100%' fill='url(#dottedGrid)' />
-				</svg>
+			<AiChat />
 
-				<div className={styles.orb1} />
-				<div className={styles.orb2} />
-				<div className={styles.orb3} />
-				<div className={styles.wrapper}>
-					<div className={styles.titlesWrapper}>
-						<h2 className={styles.title}>
-							Еще не нашли <span>что ищете?</span>
-						</h2>
-
-						<h3 className={styles.subtitle}>
-							Наш <span>ИИ</span>-ассистент может вам помочь!
-						</h3>
-					</div>
-					<div className={styles.chatWrapper}>
-						<AIChat />
-					</div>
-				</div>
-			</section>
-
-			<section className={styles.Details}>
+			<section className={styles.about} ref={aboutRef}>
 				<div className='container'>
-					<h2>Details</h2>
+					<h2 className={styles.title}>О нас</h2>
+
+					<div className={styles.topWrapper}>
+						<div className={styles.topLeft} ref={topLeftRef}>
+							<h3 className={styles.subTitle}>Опыт</h3>
+							<h3 className={styles.subTitle}>Рост</h3>
+							<h3 className={styles.subTitle}>Качество</h3>
+						</div>
+						<div className={styles.topRight}>
+							<p className={styles.text}>
+								С 2005 года мы зарекомендовали себя как <span>надёжный </span>
+								партнёр
+							</p>
+							<p className={styles.text}>
+								Который мастерски сочетает глубокий опыт в
+								<span> автоматизации</span> и проектировании сетей с
+								предоставлением полного спектра IT-услуг.
+							</p>
+							<p className={styles.text}>
+								Мы — растущая компания, для которой <span>качество</span> — это
+								не опция, а стандарт!
+							</p>
+						</div>
+					</div>
+					<div className={styles.why} ref={whyRef}>
+						<h2 className={styles.whyTitle}>Почему выбирают нас?</h2>
+						<ul className={styles.list}>
+							<li className={styles.item}>
+								<h4 className={styles.innerTitle}>
+									Интеллектуальная Автоматизация
+								</h4>
+								<p className={styles.innerText}>
+									<span>Мы превращаем затраты в инвестиции.</span>
+									<br />
+									Внедряем системы ИИ и автоматизации, которые быстро окупаются.
+									Вы получаете работу 24/7/365 без человеческого фактора,
+									мгновенную четкость процессов и стабильный экспоненциальный
+									рост.
+								</p>
+							</li>
+							<li className={styles.item}>
+								<h4 className={styles.innerTitle}>Гарантия Безопасности</h4>
+								<p className={styles.innerText}>
+									<span>
+										Мы обеспечиваем бесперебойную защиту ваших активов.
+									</span>
+									<br />
+									Используем проактивный подход (SSL-сертификаты, 24/7
+									сканирование уязвимостей).
+									<br /> Вы получаете полное спокойствие, подкреплённое
+									постоянным мониторингом.
+								</p>
+							</li>
+							<li className={styles.item}>
+								<h4 className={styles.innerTitle}>Фокус на Бизнес-Целях</h4>
+								<p className={styles.innerText}>
+									<span>Мы делаем сложное простым.</span> <br />
+									Полностью берем на себя всю техническую рутину (ПО,
+									обслуживание, администрирование). <br />
+									Наша задача — обеспечить чистую, понятную работу IT, чтобы вы
+									могли без отвлечений достигать стратегических целей.
+								</p>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</section>
 		</>
