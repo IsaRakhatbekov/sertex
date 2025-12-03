@@ -21,27 +21,28 @@ export default function Home() {
 		const ctx = gsap.context(() => {
 			const mainTimeline = gsap.timeline()
 
-			// Анимация заголовка (начинает сразу)
+			// Анимация заголовка (чистый построчный приезд)
 			if (titleRef.current) {
 				const splitTitle = new SplitText(titleRef.current, {
-					type: 'words,chars',
-					wordsClass: styles.word,
+					type: 'lines,chars', // Делим на линии и символы
+					linesClass: styles.line, // Для обрезки
 					charsClass: styles.char,
 				})
 
-				mainTimeline.from(
-					splitTitle.chars,
-					{
-						duration: 0.8,
-						opacity: 0,
-						y: 50,
-						rotationX: -50,
-						transformOrigin: '-100% -100% -10',
-						stagger: 0.04,
-						ease: 'back.out(0.4)',
-					},
-					0.2 // Запуск через 0.2с после старта таймлайна (вместо '1')
-				)
+				// Добавляем проверку для избежания ошибок GSAP
+				if (splitTitle.chars && splitTitle.chars.length > 0) {
+					mainTimeline.from(
+						splitTitle.chars,
+						{
+							duration: 0.4,
+							opacity: 0,
+							y: '100%', // Приезд снизу на высоту символа
+							stagger: 0.02,
+							ease: 'power2.out',
+						},
+						0.2 // Время запуска
+					)
+				}
 			}
 
 			// Анимация подзаголовка
@@ -65,7 +66,7 @@ export default function Home() {
 				)
 			}
 
-			// ---   АНИМАЦИИ ДЛЯ КНОПОК с clip-path ---
+			// --- АНИМАЦИИ ДЛЯ КНОПОК с clip-path ---
 			const btnWrapper = document.querySelector(`.${styles.btnWrapper}`)
 			if (btnWrapper) {
 				const buttons = btnWrapper.querySelectorAll(`.${styles.btn}`)
@@ -83,6 +84,16 @@ export default function Home() {
 					gsap.set(buttons, { opacity: 1 })
 
 					// 2. Анимация первой кнопки (раскрытие через clip-path)
+					mainTimeline.add('btn1Start', '-=0.6')
+
+					// **АНИМАЦИЯ СВЕЧЕНИЯ ДЛЯ КНОПКИ 1: НАЧАЛО (СВЕТОВОЙ КРАЙ) **
+					// Изначально свечение сдвинуто влево (-50px), чтобы быть невидимым
+					gsap.set(btn1, {
+						boxShadow:
+							'0 4px 15px rgba(100, 181, 246, 0.3), -50px 0 30px rgba(224, 247, 250, 0.0)',
+					})
+
+					// Анимация clip-path
 					mainTimeline.to(
 						btn1,
 						{
@@ -90,11 +101,44 @@ export default function Home() {
 							duration: 1,
 							ease: 'power3.out',
 						},
-						// Начинаем за 0.6 секунды до окончания анимации подзаголовка
-						'-=0.6'
+						'btn1Start'
+					)
+
+					// **АНИМАЦИЯ СВЕЧЕНИЯ ДЛЯ КНОПКИ 1: ДВИЖЕНИЕ**
+					// Двигаем свечение вправо, синхронно с раскрытием кнопки.
+					mainTimeline.to(
+						btn1,
+						{
+							// Яркое свечение (цвет фона кнопки + белый/голубой)
+							// Сдвинуто на 50px вправо, радиус 50px (сильно размыто)
+							boxShadow:
+								'0 4px 15px rgba(100, 181, 246, 0.3), 50px 0 50px rgba(224, 247, 250, 0.8)',
+							duration: 0.5, // Половина времени раскрытия
+							ease: 'power1.in',
+						},
+						'btn1Start' // Начинаем свечение одновременно с раскрытием
+					)
+					// Сброс свечения, когда раскрытие заканчивается
+					mainTimeline.to(
+						btn1,
+						{
+							boxShadow: '0 4px 15px rgba(100, 181, 246, 0.3)', // Возвращаем исходную тень
+							duration: 0.5,
+							ease: 'power3.out',
+						},
+						'btn1Start+=0.5' // Начинаем сброс после половины времени анимации
 					)
 
 					// 3. Анимация второй кнопки (раскрытие) И текста первой кнопки (появление) - одновременно
+					mainTimeline.add('btn2Start', 'btn1Start+=0.7') // Метка для синхронизации
+
+					// **АНИМАЦИЯ СВЕЧЕНИЯ ДЛЯ КНОПКИ 2: НАЧАЛО**
+					gsap.set(btn2, {
+						boxShadow:
+							'0 4px 15px rgba(100, 181, 246, 0.3), -50px 0 30px rgba(224, 247, 250, 0.0)',
+					})
+
+					// Анимация clip-path
 					mainTimeline.to(
 						btn2,
 						{
@@ -102,8 +146,28 @@ export default function Home() {
 							duration: 1,
 							ease: 'power3.out',
 						},
-						// Начинаем за 0.3 секунды до окончания анимации первой кнопки
-						'-=0.3'
+						'btn2Start'
+					)
+
+					// **АНИМАЦИЯ СВЕЧЕНИЯ ДЛЯ КНОПКИ 2: ДВИЖЕНИЕ**
+					mainTimeline.to(
+						btn2,
+						{
+							boxShadow:
+								'0 4px 15px rgba(100, 181, 246, 0.3), 50px 0 50px rgba(224, 247, 250, 0.8)',
+							duration: 0.5,
+							ease: 'power1.in',
+						},
+						'btn2Start'
+					)
+					mainTimeline.to(
+						btn2,
+						{
+							boxShadow: '0 4px 15px rgba(100, 181, 246, 0.3)',
+							duration: 0.5,
+							ease: 'power3.out',
+						},
+						'btn2Start+=0.5'
 					)
 
 					if (btn1Text) {
@@ -114,8 +178,7 @@ export default function Home() {
 								duration: 0.5,
 								ease: 'power1.inOut',
 							},
-							// Запускаем текст одновременно с началом анимации второй кнопки
-							'<'
+							'btn2Start'
 						)
 					}
 
@@ -128,14 +191,13 @@ export default function Home() {
 								duration: 0.5,
 								ease: 'power1.inOut',
 							},
-							// Запускаем текст второй кнопки, когда ее раскрытие почти закончено
 							'>-0.5'
 						)
 					}
 				}
 			}
 
-			// --- ДРУГИЕ АНИМАЦИИ (ОСТАЮТСЯ БЕЗ ИЗМЕНЕНИЙ) ---
+			// --- ДРУГИЕ АНИМАЦИИ (ScrollTrigger) ---
 			if (topLeftRef.current) {
 				const subTitles = topLeftRef.current.querySelectorAll(
 					`.${styles.subTitle}`
@@ -188,11 +250,9 @@ export default function Home() {
 				}
 			}
 
-			// Анимация для why items с stagger эффектом и анимацией внутренних элементов
 			if (whyRef.current) {
 				const whyItems = whyRef.current.querySelectorAll(`.${styles.item}`)
 
-				// Установки начального состояния (без изменений)
 				gsap.set(whyItems, {
 					y: 100,
 					opacity: 0,
@@ -210,17 +270,12 @@ export default function Home() {
 					}
 
 					if (innerText) {
-						// !!! УСТАНОВКА НАЧАЛЬНОГО СОСТОЯНИЯ ДЛЯ ТЕКСТА !!!
-						// Теперь мы будем анимировать строки, а не весь блок innerText.
-						// SplitText еще не запущен, поэтому пока устанавливаем opacity: 0
-						// и уберем y: 30, так как будем анимировать строки.
 						gsap.set(innerText, {
 							opacity: 0,
 						})
 					}
 				})
 
-				// Создаем главную timeline (без изменений)
 				const mainWhyTimeline = gsap.timeline({
 					scrollTrigger: {
 						trigger: whyRef.current,
@@ -230,15 +285,11 @@ export default function Home() {
 						toggleActions: 'play reverse play reverse',
 					},
 				})
-
-				// Анимация для каждого блока
 				whyItems.forEach((item, index) => {
 					const innerTitle = item.querySelector(`.${styles.innerTitle}`)
 					const innerText = item.querySelector(`.${styles.innerText}`)
 
 					const position = index * 0.5
-
-					// Блок (без изменений)
 					mainWhyTimeline.to(
 						item,
 						{
@@ -249,8 +300,6 @@ export default function Home() {
 						},
 						position
 					)
-
-					// Заголовок (без изменений)
 					if (innerTitle) {
 						mainWhyTimeline.to(
 							innerTitle,
@@ -263,34 +312,31 @@ export default function Home() {
 							position + 0.8
 						)
 					}
-
-					// Текст (ПОСТРОЧНАЯ АНИМАЦИЯ)
 					if (innerText) {
-						// 1. Делаем контейнер текста видимым (потому что его строки будут анимированы)
-						mainWhyTimeline.to(
-							innerText,
-							{ opacity: 1, duration: 0.1 },
-							position + 1.4 // Время начала анимации текста
-						)
-
-						// 2. Инициализируем SplitText для построчной анимации
 						const splitText = new SplitText(innerText, {
 							type: 'lines',
-							linesClass: styles.line, // Используем класс для обрезки
+							linesClass: styles.line,
 						})
-
-						// 3. Анимируем каждую строку
-						mainWhyTimeline.from(
-							splitText.lines,
-							{
-								y: 30, // Небольшое смещение снизу
-								opacity: 0,
-								stagger: 0.4, // Пауза между появлением строк
-								duration: 1, // Продолжительность анимации для каждой строки
-								ease: 'power2.out',
-							},
-							'<+0.1' // Начинаем почти сразу после того, как innerText стал видимым (с небольшим смещением)
-						)
+						if (splitText.lines && splitText.lines.length > 0) {
+							mainWhyTimeline.to(
+								innerText,
+								{ opacity: 1, duration: 0.1 },
+								position + 1.4 
+							)
+							mainWhyTimeline.from(
+								splitText.lines,
+								{
+									y: 30,
+									opacity: 0,
+									stagger: 0.1,
+									duration: 0.8,
+									ease: 'power2.out',
+								},
+								'<+0.1'
+							)
+						} else {
+							gsap.set(innerText, { opacity: 1 })
+						}
 					}
 				})
 			}

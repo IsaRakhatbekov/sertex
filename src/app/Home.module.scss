@@ -121,13 +121,11 @@
 		box-shadow: 0 4px 15px rgba(100, 181, 246, 0.3);
 		font-family: var(--font-pt_Sans_Narrow);
 
-		&:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 6px 20px rgba(100, 181, 246, 0.4);
-		}
+		clip-path: inset(0 100% 0 0);
+		transition: none;
 
-		&:active {
-			transform: translateY(0);
+		& span {
+			display: inline-block;
 		}
 	}
 }
