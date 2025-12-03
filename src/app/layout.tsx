@@ -18,8 +18,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='ru' className={pt_Sans_Narrow.className}>
-			<body>
-				{/* <Preloader /> */}
+			<body className='app'>
 				<Header />
 				<main>{children}</main>
 				<Footer />

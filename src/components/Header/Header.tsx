@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import styles from './Header.module.scss'
 
 const Header = () => {
@@ -5,15 +6,15 @@ const Header = () => {
 		<div className={styles.Header}>
 			<div className={`${styles.container} container`}>
 				<nav className={styles.nav}>
-					<a href='#' className={styles.logoWrapper}>
+					<Link href={'/'} className={styles.logoWrapper}>
 						{/* <img src="" alt="" /> */}
 						SERTEXT
-					</a>
+					</Link>
 					<ul className={styles.list}>
 						<li className={styles.item}>
-							<a className={styles.link} href='#'>
+							<Link className={styles.link} href={'/services'}>
 								All Services
-							</a>
+							</Link>
 						</li>
 						<li className={styles.item}>
 							<a className={styles.link} href='#'>
