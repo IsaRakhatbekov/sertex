@@ -1,6 +1,6 @@
 'use client'
 
-import AiChat from '@/components/AiChat/AiChat'
+import AiChat from '@/components/AIChat/AIChat'
 import gsap from 'gsap'
 import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -40,7 +40,7 @@ export default function Home() {
 						stagger: 0.04,
 						ease: 'back.out(0.4)',
 					},
-					1
+					0.2 // Запуск через 0.2с после старта таймлайна (вместо '1')
 				)
 			}
 
@@ -51,35 +51,111 @@ export default function Home() {
 					wordsClass: styles.word,
 				})
 
-				mainTimeline.from(splitSubtitle.words, {
-					duration: 1,
-					opacity: 0,
-					y: 30,
-					stagger: 0.02,
-					ease: 'power3.out',
-				})
+				mainTimeline.from(
+					splitSubtitle.words,
+					{
+						duration: 1,
+						opacity: 0,
+						y: 30,
+						stagger: 0.02,
+						ease: 'power3.out',
+					},
+					// Начинаем за 0.5 секунды до окончания анимации заголовка
+					'-=0.5'
+				)
 			}
 
+			// ---   АНИМАЦИИ ДЛЯ КНОПОК с clip-path ---
+			const btnWrapper = document.querySelector(`.${styles.btnWrapper}`)
+			if (btnWrapper) {
+				const buttons = btnWrapper.querySelectorAll(`.${styles.btn}`)
+				const btn1 = buttons[0]
+				const btn2 = buttons[1]
+
+				if (btn1 && btn2) {
+					const btn1Text = btn1.querySelector('span')
+					const btn2Text = btn2.querySelector('span')
+
+					if (btn1Text && btn2Text) {
+						gsap.set([btn1Text, btn2Text], { opacity: 0 })
+					}
+
+					gsap.set(buttons, { opacity: 1 })
+
+					// 2. Анимация первой кнопки (раскрытие через clip-path)
+					mainTimeline.to(
+						btn1,
+						{
+							clipPath: 'inset(0% 0% 0% 0%)',
+							duration: 1,
+							ease: 'power3.out',
+						},
+						// Начинаем за 0.6 секунды до окончания анимации подзаголовка
+						'-=0.6'
+					)
+
+					// 3. Анимация второй кнопки (раскрытие) И текста первой кнопки (появление) - одновременно
+					mainTimeline.to(
+						btn2,
+						{
+							clipPath: 'inset(0% 0% 0% 0%)',
+							duration: 1,
+							ease: 'power3.out',
+						},
+						// Начинаем за 0.3 секунды до окончания анимации первой кнопки
+						'-=0.3'
+					)
+
+					if (btn1Text) {
+						mainTimeline.to(
+							btn1Text,
+							{
+								opacity: 1,
+								duration: 0.5,
+								ease: 'power1.inOut',
+							},
+							// Запускаем текст одновременно с началом анимации второй кнопки
+							'<'
+						)
+					}
+
+					// 4. Анимация текста второй кнопки (появление)
+					if (btn2Text) {
+						mainTimeline.to(
+							btn2Text,
+							{
+								opacity: 1,
+								duration: 0.5,
+								ease: 'power1.inOut',
+							},
+							// Запускаем текст второй кнопки, когда ее раскрытие почти закончено
+							'>-0.5'
+						)
+					}
+				}
+			}
+
+			// --- ДРУГИЕ АНИМАЦИИ (ОСТАЮТСЯ БЕЗ ИЗМЕНЕНИЙ) ---
 			if (topLeftRef.current) {
 				const subTitles = topLeftRef.current.querySelectorAll(
 					`.${styles.subTitle}`
 				)
-				const topWrapper = topLeftRef.current.parentElement // это div.topWrapper
+				const topWrapper = topLeftRef.current.parentElement
 
 				if (topWrapper) {
 					gsap.fromTo(
 						subTitles,
-						{ x: -1500 }, // стартовое состояние
+						{ x: -1500 },
 						{
 							x: 0,
 							stagger: 0.2,
 							duration: 0.8,
 							ease: 'power3.out',
 							scrollTrigger: {
-								trigger: topWrapper, // следим за видимостью topWrapper
-								start: 'top 80%', // когда верх блока достигнет 80% экрана
-								end: 'bottom 90%', // до какого момента длится анимация
-								scrub: true, // привязка к скроллу
+								trigger: topWrapper,
+								start: 'top 80%',
+								end: 'bottom 90%',
+								scrub: true,
 							},
 						}
 					)
@@ -93,10 +169,8 @@ export default function Home() {
 				if (topRight) {
 					const paragraphs = topRight.querySelectorAll(`.${styles.text}`)
 
-					// стартовое состояние — справа
 					gsap.set(paragraphs, { x: 200, opacity: 0 })
 
-					// триггер для запуска анимации, когда секция видна
 					ScrollTrigger.create({
 						trigger: topWrapper,
 						start: 'top 80%',
@@ -104,12 +178,12 @@ export default function Home() {
 							gsap.to(paragraphs, {
 								x: 0,
 								opacity: 1,
-								stagger: 0.2, // задержка между строчками
+								stagger: 0.2,
 								duration: 0.8,
 								ease: 'power3.out',
 							})
 						},
-						once: true, // срабатывает один раз
+						once: true,
 					})
 				}
 			}
@@ -118,7 +192,7 @@ export default function Home() {
 			if (whyRef.current) {
 				const whyItems = whyRef.current.querySelectorAll(`.${styles.item}`)
 
-				// Устанавливаем начальное состояние для всех элементов
+				// Установки начального состояния (без изменений)
 				gsap.set(whyItems, {
 					y: 100,
 					opacity: 0,
@@ -136,14 +210,17 @@ export default function Home() {
 					}
 
 					if (innerText) {
+						// !!! УСТАНОВКА НАЧАЛЬНОГО СОСТОЯНИЯ ДЛЯ ТЕКСТА !!!
+						// Теперь мы будем анимировать строки, а не весь блок innerText.
+						// SplitText еще не запущен, поэтому пока устанавливаем opacity: 0
+						// и уберем y: 30, так как будем анимировать строки.
 						gsap.set(innerText, {
-							y: 30,
 							opacity: 0,
 						})
 					}
 				})
 
-				// Создаем главную timeline
+				// Создаем главную timeline (без изменений)
 				const mainWhyTimeline = gsap.timeline({
 					scrollTrigger: {
 						trigger: whyRef.current,
@@ -154,14 +231,14 @@ export default function Home() {
 					},
 				})
 
-				// Анимация для каждого блока с внутренними элементами
+				// Анимация для каждого блока
 				whyItems.forEach((item, index) => {
 					const innerTitle = item.querySelector(`.${styles.innerTitle}`)
 					const innerText = item.querySelector(`.${styles.innerText}`)
 
-					const position = index * 0.5 // Базовая задержка для каждого блока
+					const position = index * 0.5
 
-					// Блок
+					// Блок (без изменений)
 					mainWhyTimeline.to(
 						item,
 						{
@@ -173,7 +250,7 @@ export default function Home() {
 						position
 					)
 
-					// Заголовок (через 0.3с после появления блока)
+					// Заголовок (без изменений)
 					if (innerTitle) {
 						mainWhyTimeline.to(
 							innerTitle,
@@ -187,17 +264,32 @@ export default function Home() {
 						)
 					}
 
-					// Текст (через 0.6с после появления блока)
+					// Текст (ПОСТРОЧНАЯ АНИМАЦИЯ)
 					if (innerText) {
+						// 1. Делаем контейнер текста видимым (потому что его строки будут анимированы)
 						mainWhyTimeline.to(
 							innerText,
+							{ opacity: 1, duration: 0.1 },
+							position + 1.4 // Время начала анимации текста
+						)
+
+						// 2. Инициализируем SplitText для построчной анимации
+						const splitText = new SplitText(innerText, {
+							type: 'lines',
+							linesClass: styles.line, // Используем класс для обрезки
+						})
+
+						// 3. Анимируем каждую строку
+						mainWhyTimeline.from(
+							splitText.lines,
 							{
-								y: 0,
-								opacity: 1,
-								duration: 0.7,
-								ease: 'power3.out',
+								y: 30, // Небольшое смещение снизу
+								opacity: 0,
+								stagger: 0.4, // Пауза между появлением строк
+								duration: 1, // Продолжительность анимации для каждой строки
+								ease: 'power2.out',
 							},
-							position + 1.4
+							'<+0.1' // Начинаем почти сразу после того, как innerText стал видимым (с небольшим смещением)
 						)
 					}
 				})

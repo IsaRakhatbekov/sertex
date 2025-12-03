@@ -1,4 +1,140 @@
+$primary-dark: #000000; // Основной темный фон
+$text-light: #ffffff; // Светлый текст
+$accent-blue: #4c9eff; // Неоново-синий акцент
+$light-gray: #cccccc; // Для юридической информации
+
 .Footer {
-	padding: 50px 0;
-	background-color: #010101;
+	padding: 80px 0 30px; // Увеличиваем отступ сверху для визуального отделения
+	background-color: $primary-dark;
+	color: $text-light; // Устанавливаем светлый цвет по умолчанию
+	font-size: 16px;
+
+	@media (max-width: 768px) {
+		padding: 50px 0 20px;
+	}
+}
+
+.FooterContent {
+	display: flex;
+	justify-content: space-between;
+	gap: 40px;
+	margin-bottom: 40px;
+
+	@media (max-width: 992px) {
+		flex-wrap: wrap;
+	}
+}
+
+.BrandColumn,
+.NavColumn {
+	flex: 1;
+	min-width: 200px;
+	margin-bottom: 20px;
+
+	@media (max-width: 992px) {
+		min-width: 40%; // Две колонки на планшете
+	}
+	@media (max-width: 576px) {
+		min-width: 100%; // Одна колонка на мобильном
+	}
+}
+
+.Logo {
+	font-size: 40px;
+	font-weight: 700;
+	color: $accent-blue; // Неоновый цвет для лого
+	margin-bottom: 20px;
+	// Можно добавить text-shadow для эффекта свечения, если нужно
+	// text-shadow: 0 0 5px $accent-blue, 0 0 10px $accent-blue;
+}
+
+.Tagline {
+	font-size: 20px;
+	font-weight: 400;
+	line-height: 1.3em;
+	color: $text-light;
+	margin-bottom: 20px;
+}
+
+.ContactInfo p {
+	margin: 5px 0;
+	color: $text-light;
+	font-size: 20px;
+	font-weight: 400;
+	line-height: 1.3em;
+}
+
+.ColumnTitle {
+	font-size: 30px;
+	font-weight: 700;
+	color: $accent-blue;
+	margin-bottom: 20px;
+}
+
+.NavColumn ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+
+	li {
+		margin-bottom: 10px;
+
+		a {
+			font-size: 22px;
+			font-weight: 400;
+			color: $text-light;
+			text-decoration: none;
+			transition: color 0.3s ease;
+
+			&:hover {
+				color: $accent-blue; // Неоновый эффект при наведении
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+.Divider {
+	border: none;
+	border-top: 1px solid #333333; // Тонкий, темный разделитель
+	margin: 30px 0;
+}
+
+.FooterBottom {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 14px;
+	color: $light-gray;
+
+	@media (max-width: 768px) {
+		flex-direction: column;
+		text-align: center;
+	}
+}
+
+.Copyright {
+	@media (max-width: 768px) {
+		margin-bottom: 10px;
+	}
+}
+
+.LegalInfo {
+	display: flex;
+	gap: 20px;
+
+	@media (max-width: 768px) {
+		flex-direction: column;
+		gap: 5px;
+		margin-bottom: 10px;
+	}
+}
+
+.Developer a {
+	color: $accent-blue;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
 }

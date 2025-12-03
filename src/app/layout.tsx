@@ -2,6 +2,7 @@ import { PT_Sans_Narrow } from 'next/font/google'
 
 import Footer from '@/components/Footer/Footer'
 import Header from '@/components/Header/Header'
+import Preloader from '@/components/Preloader/Preloader'
 import '@/styles/global.scss'
 import '@/styles/reset.scss'
 
@@ -19,7 +20,7 @@ export default function RootLayout({
 	return (
 		<html lang='ru' className={pt_Sans_Narrow.className}>
 			<body>
-				{/* <Preloader /> */}
+				<Preloader />
 				<Header />
 				<main>{children}</main>
 				<Footer />

@@ -2,7 +2,7 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useLayoutEffect, useRef } from 'react'
-import styles from './AiChat.module.scss'
+import styles from './AIChat.module.scss'
 
 gsap.registerPlugin(ScrollTrigger)
 
