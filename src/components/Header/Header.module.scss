@@ -23,7 +23,6 @@
 	}
 
 	.list {
-		gap: 20px;
 		display: flex;
 		align-items: center;
 	}
@@ -32,5 +31,11 @@
 		display: inline-block;
 		padding: 20px;
 		font-size: 22px;
+		transition: all 0.3s;
+
+		&:hover {
+			color: #fff;
+			background-color: #64b5f6;
+		}
 	}
 }

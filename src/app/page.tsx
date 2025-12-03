@@ -321,7 +321,7 @@ export default function Home() {
 							mainWhyTimeline.to(
 								innerText,
 								{ opacity: 1, duration: 0.1 },
-								position + 1.4 
+								position + 1.4
 							)
 							mainWhyTimeline.from(
 								splitText.lines,
@@ -385,7 +385,7 @@ export default function Home() {
 							и дешевле.
 						</h2>
 						<div className={styles.btnWrapper}>
-							<a className={styles.btn} href='#aiSection'>
+							<a className={styles.btn} href='#chat'>
 								Решите проблему с помощью ИИ
 							</a>
 							<a href='#WhatWeDo' className={styles.btn}>
@@ -480,7 +480,9 @@ export default function Home() {
 				</div>
 			</section>
 
-			<AiChat />
+			<section id='chat'>
+				<AiChat />
+			</section>
 
 			<section className={styles.about} ref={aboutRef}>
 				<div className='container'>
