@@ -1,3 +1,77 @@
+// Services.module.scss
+
+$primary-color: #64b5f6;
+$text-color: #333;
+$bg-color-light: #f7f9fc;
+$icon-bg-color: #ccc; // Серый цвет для заглушки иконки
+
 .Services {
-	padding: 100px 0;
+	padding: 200px 0;
+	background-color: #ffffff;
+}
+
+.mainTitle {
+	text-align: center;
+	font-size: 2.5rem;
+	margin-bottom: 60px;
+	color: $text-color;
+	font-weight: 700;
+}
+
+.gridWrapper {
+	// Сетка 3хN
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 25px;
+
+	// Адаптивность
+	@media (max-width: 1024px) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+	@media (max-width: 768px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.serviceCard {
+	padding: 30px;
+	border-radius: 12px;
+	background-color: $bg-color-light;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+	transition: all 0.3s ease;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	&:hover {
+		background-color: lighten($bg-color-light, 1%);
+		transform: translateY(-5px);
+		// Акцентная рамка при наведении
+		box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 0 0 3px $primary-color;
+	}
+}
+
+// Заглушка для иконки
+.icon {
+	width: 40px;
+	height: 40px;
+	background-color: $icon-bg-color;
+	border-radius: 8px;
+	margin-bottom: 15px;
+}
+
+.cardTitle {
+	font-size: 35px;
+	color: $primary-color;
+	margin: 0px 0 20px 0;
+	font-weight: 700;
+	line-height: 1.3em;
+}
+
+.cardDescription {
+	color: #666;
+	font-size: 22px;
+	line-height: 1.3em;
+	text-wrap: balance;
 }

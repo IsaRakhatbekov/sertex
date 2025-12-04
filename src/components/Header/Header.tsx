@@ -13,22 +13,22 @@ const Header = () => {
 					<ul className={styles.list}>
 						<li className={styles.item}>
 							<Link className={styles.link} href={'/services'}>
-								All Services
+								Все Услуги
 							</Link>
 						</li>
 						<li className={styles.item}>
 							<a className={styles.link} href='#'>
-								About Us
+								О нас
 							</a>
 						</li>
 						<li className={styles.item}>
 							<a className={styles.link} href='#'>
-								AI-Chat
+								AI-Чат
 							</a>
 						</li>
 						<li className={styles.item}>
 							<a className={styles.link} href='#'>
-								Contacts
+								Контакты
 							</a>
 						</li>
 					</ul>
