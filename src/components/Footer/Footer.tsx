@@ -18,7 +18,7 @@ const Footer = () => {
 	]
 
 	return (
-		<footer className={styles.Footer}>
+		<footer className={styles.Footer} id='footer'>
 			<div className={`${styles.container} container`}>
 				<div className={styles.FooterContent}>
 					{/* Колонка 1: Бренд и Контакты */}

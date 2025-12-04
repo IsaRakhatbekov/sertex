@@ -1,20 +1,12 @@
 'use client'
 
-import React from 'react'
-// Импортируем стили из отдельного модуля
+import React, { useState } from 'react'
 import styles from './Services.module.scss'
-
-// =========================================================
-// 1. ТИПИЗАЦИЯ ДАННЫХ
-// =========================================================
 interface ServiceCard {
 	title: string
 	description: string
 }
 
-// =========================================================
-// 2. ДАННЫЕ (Полное перечисление всех услуг)
-// =========================================================
 const detailedServices: ServiceCard[] = [
 	// РАЗРАБОТКА И ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ
 	{
@@ -130,30 +122,145 @@ const detailedServices: ServiceCard[] = [
 	},
 ]
 
-// =========================================================
-// 3. ОСНОВНОЙ КОМПОНЕНТ СЕКЦИИ УСЛУГ
-// =========================================================
-const Services: React.FC = () => {
-	return (
-		<div className={styles.Services}>
-			<div className={`${styles.container} container`}>
-				<h2 className={styles.mainTitle}>Полный спектр IT-услуг</h2>
+const ContactModal: React.FC<{ serviceTitle: string; onClose: () => void }> = ({
+	serviceTitle,
+	onClose,
+}) => {
+	const isGeneralRequest = serviceTitle === 'Общий запрос'
+	const modalTitle = isGeneralRequest
+		? 'Запрос по нескольким услугам'
+		: `Заявка по услуге: ${serviceTitle}`
 
-				<div className={styles.gridWrapper}>
-					{detailedServices.map((service, index) => (
-						<div key={index} className={styles.serviceCard}>
-							<div className={styles.icon}>
-								{/* Заглушка для иконки #ccc */}
-							</div>
-							<div className={styles.textWrapper}>
-								<h3 className={styles.cardTitle}>{service.title}</h3>
-								<p className={styles.cardDescription}>{service.description}</p>
-							</div>
-						</div>
-					))}
-				</div>
+	return (
+		<div className={styles.modalOverlay} onClick={onClose}>
+			<div className={styles.modalContent} onClick={e => e.stopPropagation()}>
+				<button className={styles.closeButton} onClick={onClose}>
+					&times;
+				</button>
+				<h3>{modalTitle}</h3>
+				{isGeneralRequest ? (
+					<p>
+						Опишите, какие услуги или задачи вас интересуют, и мы свяжемся с
+						вами для уточнения деталей.
+					</p>
+				) : (
+					<p>
+						Вы выбрали услугу: <strong>{serviceTitle}</strong>
+					</p>
+				)}
+				<form className={styles.modalForm}>
+					<input type='text' placeholder='Ваше имя' required />
+					<input type='tel' placeholder='Телефон' required />
+					<input type='email' placeholder='Email (необязательно)' />
+					{isGeneralRequest && (
+						<textarea
+							placeholder='Опишите ваши задачи и нужные услуги...'
+							rows={4}
+						></textarea>
+					)}
+
+					<button type='submit' className={styles.submitButton}>
+						Связаться с нами
+					</button>
+				</form>
 			</div>
 		</div>
+	)
+}
+
+const GeneralCta: React.FC<{ onOpenModal: (title: string) => void }> = ({
+	onOpenModal,
+}) => {
+	return (
+		<div className={styles.generalCtaBlock}>
+			<h3 className={styles.ctaTitle}>Нужна комплексная IT-поддержка?</h3>
+			<p className={styles.ctaText}>
+				Если вы не уверены в выборе или ищете решение "под ключ", закажите общую
+				консультацию. Мы подберем оптимальный набор услуг для вашего бизнеса.
+			</p>
+			<button
+				className={styles.ctaButtonLarge}
+				onClick={() => onOpenModal('Общий запрос')}
+			>
+				Заказать общую консультацию
+			</button>
+		</div>
+	)
+}
+const Services: React.FC = () => {
+	const [isModalOpen, setIsModalOpen] = useState(false)
+	const [selectedService, setSelectedService] = useState('')
+
+	const handleOpenModal = (title: string) => {
+		setSelectedService(title)
+		setIsModalOpen(true)
+	}
+
+	const handleCloseModal = () => {
+		setIsModalOpen(false)
+		setSelectedService('')
+	}
+
+	return (
+		<>
+			<div className={styles.Services}>
+				<div className={styles.dotesWrapper}>
+					<svg
+						style={{
+							position: 'absolute',
+							width: '100%',
+							height: '100%',
+							zIndex: 0,
+						}}
+						xmlns='http://www.w3.org/2000/svg'
+					>
+						<defs>
+							<pattern
+								id='dottedGrid'
+								width='30'
+								height='30'
+								patternUnits='userSpaceOnUse'
+							>
+								<circle cx='2' cy='2' r='1' fill='rgba(0,0,0,0.10)' />
+							</pattern>
+						</defs>
+						<rect width='100%' height='100%' fill='url(#dottedGrid)' />
+					</svg>
+				</div>
+				<div className={`${styles.container} container`}>
+					<h2 className={styles.mainTitle}>Полный спектр IT-услуг</h2>
+
+					<div className={styles.gridWrapper}>
+						{detailedServices.map((service, index) => (
+							<div key={index} className={styles.serviceCard}>
+								<div className={styles.icon}></div>
+								<div className={styles.textWrapper}>
+									<h3 className={styles.cardTitle}>{service.title}</h3>
+									<p className={styles.cardDescription}>
+										{service.description}
+									</p>
+								</div>
+								<button
+									className={styles.ctaButton}
+									onClick={() => handleOpenModal(service.title)}
+								>
+									Заказать консультацию
+								</button>
+							</div>
+						))}
+					</div>
+
+					<GeneralCta onOpenModal={handleOpenModal} />
+				</div>
+			</div>
+
+			{isModalOpen && (
+				<ContactModal
+					serviceTitle={selectedService}
+					onClose={handleCloseModal}
+				/>
+			)}
+		</>
 	)
 }
 

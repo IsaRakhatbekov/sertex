@@ -529,7 +529,7 @@ export default function Home() {
 				</div>
 			</section>
 
-			<section className={styles.about} ref={aboutRef}>
+			<section className={styles.about} id='about' ref={aboutRef}>
 				<div className='container'>
 					<h2 className={styles.title}>О нас</h2>
 

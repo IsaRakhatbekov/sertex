@@ -1,11 +1,11 @@
 $primary-dark: #000000; // Основной темный фон
 $text-light: #ffffff; // Светлый текст
-$accent-blue: #4c9eff; // Неоново-синий акцент
+$accent-blue: #64b5f6; // Неоново-синий акцент
 $light-gray: #cccccc; // Для юридической информации
 
 .Footer {
 	padding: 80px 0 30px; // Увеличиваем отступ сверху для визуального отделения
-	background-color: $primary-dark;
+	background: #020305; // Темный фон как на картинке
 	color: $text-light; // Устанавливаем светлый цвет по умолчанию
 	font-size: 16px;
 

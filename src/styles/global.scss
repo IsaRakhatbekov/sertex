@@ -11,6 +11,9 @@ body {
 	line-height: 1.3em;
 	color: #202020;
 	background-color: #fff;
+
+	/* === НОВОЕ СВОЙСТВО ДЛЯ ПЛАВНОЙ ПРОКРУТКИ === */
+	scroll-behavior: smooth;
 }
 
 body {
