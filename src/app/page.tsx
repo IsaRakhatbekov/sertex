@@ -5,8 +5,19 @@ import gsap from 'gsap'
 import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
+import Image from 'next/image'
 import { useLayoutEffect, useRef } from 'react'
+import 'swiper/css'
+import 'swiper/css/free-mode'
+import { Autoplay, FreeMode } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import styles from './Home.module.scss'
+
+import logo3 from '../../public/dellemc.png'
+import logo4 from '../../public/hewlett.jpeg'
+import logo2 from '../../public/lenovo.jpeg'
+import logo1 from '../../public/micro.png'
+
 gsap.registerPlugin(ScrambleTextPlugin, ScrollTrigger)
 
 export default function Home() {
@@ -16,6 +27,15 @@ export default function Home() {
 	const aboutRef = useRef<HTMLElement | null>(null)
 	const topLeftRef = useRef<HTMLDivElement | null>(null)
 	const whyRef = useRef<HTMLDivElement>(null)
+
+	const partnerLogos = [
+		{ id: 1, src: logo1, alt: 'Microsoft Partner' },
+		{ id: 2, src: logo2, alt: 'Lenovo Partner' },
+		{ id: 3, src: logo3, alt: 'DELL EMC Partner' },
+		{ id: 4, src: logo4, alt: 'Hewlett Packard Enterprise' },
+		{ id: 5, src: logo2, alt: 'Hewlett Packard Enterprise' },
+		{ id: 6, src: logo3, alt: 'Hewlett Packard Enterprise' },
+	]
 
 	useLayoutEffect(() => {
 		const ctx = gsap.context(() => {
@@ -482,6 +502,31 @@ export default function Home() {
 
 			<section id='chat'>
 				<AiChat />
+			</section>
+
+			<section className={styles.partners}>
+				<div className={`${styles.container} container`}>
+					<Swiper
+						modules={[Autoplay, FreeMode]}
+						spaceBetween={50}
+						slidesPerView={'auto'}
+						loop={true}
+						freeMode={true}
+						grabCursor={true}
+						autoplay={{
+							delay: 0,
+							disableOnInteraction: true,
+						}}
+						speed={3000}
+						className={styles.partnersSwiper}
+					>
+						{partnerLogos.map(logo => (
+							<SwiperSlide key={logo.id} className={styles.item}>
+								<Image src={logo.src} alt={logo.alt} fill />
+							</SwiperSlide>
+						))}
+					</Swiper>
+				</div>
 			</section>
 
 			<section className={styles.about} ref={aboutRef}>
