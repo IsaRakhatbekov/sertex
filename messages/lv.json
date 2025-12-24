@@ -1,0 +1,132 @@
+{
+	"Header": {
+		"services": "Pakalpojumi",
+		"about": "Par mums",
+		"chat": "AI Čats",
+		"contacts": "Kontakti",
+		"startProject": "Sākt projektu"
+	},
+	"Hero": {
+		"leaders": "Mēs esam līderi IT automatizācijā",
+		"mainTitle": "Serveru risinājumi, IT ārpakalpojumi",
+		"mainTitleSecond": "-automatizācija",
+		"subtitle": "Mēs, *SERTEX*, uzņemamies IT infrastruktūru, serverus un atbalstu, kā arī ieviešam AI risinājumus, lai jūsu bizness strādātu ātrāk, stabilāk un lētāk.",
+		"aiChatBtn": "Atrisiniet problēmu ar AI",
+		"ourServicesBtn": "Mūsu pakalpojumi",
+		"trustUs": "Mums uzticas"
+	},
+	"WhatWeDo": {
+		"title": "Mūsu",
+		"titleAccentColor": "pakalpojumi",
+		"cards": {
+			"corpSoft": {
+				"title": "Korporatīvā programmatūra",
+				"text": "Izveidojam programmatūru uzņēmuma uzdevumiem: uzskaite, atskaites, procesi."
+			},
+			"aiSolutions": {
+				"title": "AI risinājumi",
+				"text": "Ieviešam procesu automatizāciju un viedos palīgus."
+			},
+			"corpSystems": {
+				"title": "Korporatīvās sistēmas",
+				"text": "Izstrādājam iekšējos portālus, pieteikumus, dokumentus, procesus."
+			},
+			"cloud": {
+				"title": "Mākoņrisinājumi",
+				"text": "Palaižam korporatīvos pakalpojumus, kas pieejami darbiniekiem un klientiem tiešsaistē"
+			},
+			"infra": {
+				"title": "Serveru infrastruktūra",
+				"text": "Izvietojam, konfigurējam un apkalpojam serverus un hostingu."
+			},
+			"webDev": {
+				"title": "Tīmekļa izstrāde",
+				"text": "Veidojam mūsdienīgas korporatīvās mājaslapas un tiešsaistes pakalpojumus."
+			},
+			"devOps": {
+				"title": "DevOps un integrācijas",
+				"text": "Konfigurējam automātiskos atjauninājumus, sasaistes un n8n scenārijus."
+			},
+			"backup": {
+				"title": "Backup & Storage",
+				"text": "Nodrošinām uzticamu datu glabāšanu un rezerves kopijas."
+			},
+			"support": {
+				"title": "Tehniskais atbalsts 24/7",
+				"text": "Palīdzam darbiniekiem un uzraugām sistēmu stabilitāti."
+			}
+		},
+		"moreBtn": "Uzzināt vairāk"
+	},
+	"AiChat": {
+		"title": "Vēl neesat atraduši <span>meklēto?</span>",
+		"subtitle": "Mūsu <span>AI</span> asistents var jums palīdzēt!",
+		"messages": {
+			"msg1": "Sveiki — esmu jūsu AI asistents",
+			"msg2": "Kā es varu palīdzēt?"
+		},
+		"placeholder": "Rakstiet ziņu..."
+	},
+	"AboutUs": {
+		"title": "Par mums",
+		"experience": "Pieredze",
+		"growth": "Izaugsme",
+		"quality": "Kvalitāte",
+		"text1Part1": "Kopš 2005. gada esam pierādījuši sevi kā",
+		"text1Accent": "uzticams",
+		"text1Part2": "partneris",
+		"text2Part1": "Kas meistarīgi apvieno dziļu pieredzi",
+		"text2Accent": "automatizācijā",
+		"text2Part2": "un tīklu projektēšanā ar pilnu IT pakalpojumu klāstu.",
+		"text3Part1": "Mēs esam augošs uzņēmums, kuram",
+		"text3Accent": "kvalitāte",
+		"text3Part2": "nav izvēle, bet gan standarts!"
+	},
+	"WhyChooseUs": {
+		"title": "Kāpēc izvēlēties mūs?",
+		"item1": {
+			"title": "Intelektuālā automatizācija",
+			"accent": "Mēs pārvēršam izmaksas investīcijās.",
+			"text": "Mēs ieviešam AI un automatizācijas sistēmas, kas ātri atmaksājas. Jūs iegūstat 24/7/365 darbību bez cilvēka faktora, tūlītēju procesu skaidrību un stabilu eksponenciālu izaugsmi."
+		},
+		"item2": {
+			"title": "Drošības garantija",
+			"accent": "Mēs nodrošinām nepārtrauktu jūsu aktīvu aizsardzību.",
+			"textPart1": "Izmantojam proaktīvu pieeju (SSL sertifikāti, 24/7 ievainojamību skenēšana).",
+			"textPart2": "Jūs iegūstat pilnīgu mieru, ko pamato pastāvīga uzraudzība."
+		},
+		"item3": {
+			"title": "Fokuss uz biznesa mērķiem",
+			"accent": "Mēs darām sarežģīto vienkāršu.",
+			"textPart1": "Mēs pilnībā uzņemamies visu tehnisko rutīnu (programmatūra, apkope, administrēšana).",
+			"textPart2": "Mūsu uzdevums ir nodrošināt tīru, saprotamu IT darbību, lai jūs varētu sasniegt stratēģiskos mērķus bez uzmanības novēršanas."
+		},
+		"item4": {
+			"title": "Ekspertu uzticamība",
+			"accent": "Pieredze kopš 2005. gada jūsu rīcībā.",
+			"text": "Mēs piedāvājam bezmaksas sākotnējo auditu un konsultācijas jūsu projektiem. Mūsu zināšanas industriālajā automatizācijā ļauj atrast risinājumus tur, kur citi padodas."
+		}
+	},
+	"Footer": {
+		"tagline": "Jūsu uzticamais IT partneris: AI automatizācija, serveru risinājumi un ārpakalpojumi.",
+		"titles": {
+			"navigation": "Navigācija",
+			"services": "Mūsu Pakalpojumi"
+		},
+		"navItems": {
+			"services": "Visi Pakalpojumi",
+			"about": "Par mums",
+			"chat": "AI Čats",
+			"contacts": "Kontakti"
+		},
+		"serviceItems": {
+			"corp": "Korporatīvā programmatūra",
+			"ai": "AI risinājumi",
+			"server": "Serveru infrastruktūra",
+			"web": "Tīmekļa izstrāde"
+		},
+		"copyright": "B2B EU Ltd. Visas tiesības aizsargātas.",
+		"vat": "PVN",
+		"developedBy": "Izstrādāts"
+	}
+}

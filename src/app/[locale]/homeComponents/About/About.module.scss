@@ -1,0 +1,173 @@
+$color-primary: #7b5eea;
+$color-primary-hover: #6a4ce0;
+$color-text-dark: #1a1b1e;
+$color-text-gray: #64748b;
+$font-main: 'Inter', sans-serif;
+
+@keyframes rippleAbout {
+	0% {
+		transform: scale(0.5);
+		opacity: 0;
+	}
+	50% {
+		opacity: 0.2;
+	}
+	100% {
+		transform: scale(2.5);
+		opacity: 0;
+	}
+}
+
+@keyframes signalDash {
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+
+.about {
+	position: relative;
+	padding: 100px 0;
+	overflow: hidden;
+
+	.secondLine {
+		position: absolute;
+		top: -21.4%;
+		left: -20%;
+		.signalTrackSVG {
+			// position: absolute;
+			width: 600px;
+			height: 450px;
+			pointer-events: none;
+
+			.trackBase {
+				stroke-width: 1;
+				stroke: rgba($color-primary, 0.1);
+				fill: none;
+				stroke-linecap: round;
+				stroke-linejoin: round;
+			}
+			.trackSignal {
+				stroke-width: 2.5;
+				stroke: $color-primary;
+				fill: none;
+				filter: drop-shadow(0 0 8px rgba($color-primary, 1));
+				stroke-linecap: round;
+				stroke-linejoin: round;
+				$path-length: 700;
+				stroke-dasharray: 60 $path-length;
+				stroke-dashoffset: $path-length;
+				animation: signalDash 4s linear infinite;
+			}
+		}
+	}
+
+	.dataPulseSphere {
+		position: absolute;
+		right: -5%;
+		bottom: 10%;
+		width: 200px;
+		height: 200px;
+		border-radius: 50%;
+		z-index: 1;
+		pointer-events: none;
+		background: radial-gradient(
+			circle,
+			rgba($color-primary, 0.4) 0%,
+			rgba($color-primary, 0) 70%
+		);
+
+		@media (max-width: 1024px) {
+			display: none;
+		}
+
+		&::before,
+		&::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+			border: 1px solid rgba($color-primary, 0.5);
+			opacity: 0;
+			animation: ripple 7s ease-out infinite;
+		}
+
+		&::after {
+			animation-delay: 2s;
+		}
+	}
+
+	.title {
+		font-size: 80px;
+		line-height: 0.8em;
+		margin-bottom: 4px;
+		font-weight: 400;
+		position: relative;
+		font-family: var(--font-pt_mono), monospace;
+
+		&::after {
+			content: '';
+			position: absolute;
+			width: 95%;
+			height: 1.2px;
+			background-color: #202020;
+			left: 0;
+			bottom: -10px;
+		}
+	}
+
+	.subTitle {
+		line-height: 0.8em;
+		letter-spacing: 1.3px;
+		font-size: clamp(100px, 15vw, 250px);
+	}
+
+	.topWrapper {
+		gap: 40px;
+		display: flex;
+		align-items: flex-end;
+		margin-bottom: 100px;
+	}
+
+	.topRight {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.text {
+		display: inline-block;
+		font-size: 30px;
+		font-weight: 400;
+		line-height: 1.1em;
+		margin-bottom: 8px;
+		max-width: 360px;
+		text-wrap: balance;
+		font-family: var(--font-pt_mono), monospace;
+
+		& span {
+			color: #7b5eea;
+		}
+	}
+}
+
+@keyframes ripple {
+	0% {
+		transform: scale(0.5);
+		opacity: 0;
+	}
+	50% {
+		opacity: 0.15;
+	}
+	100% {
+		transform: scale(2.5);
+		opacity: 0;
+	}
+}
+
+@keyframes signalDash {
+	to {
+		stroke-dashoffset: 0;
+	}
+}

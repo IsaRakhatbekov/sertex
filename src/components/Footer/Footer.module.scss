@@ -1,0 +1,209 @@
+$color-primary: #7b5eea;
+$color-primary-hover: #6a4ce0;
+$color-text-dark: #1a1b1e;
+$color-text-gray: #64748b;
+$font-main: 'Inter', sans-serif;
+$font-mono: var(--font-pt_mono), monospace;
+
+.Footer {
+	position: relative;
+	padding: 100px 0;
+	background-color: #fdfcff;
+	font-family: $font-main;
+	color: $color-text-dark;
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 150px;
+		background: linear-gradient(
+			to bottom,
+			#ffffff 0%,
+			rgba(253, 252, 255, 0) 100%
+		);
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	@media (max-width: 768px) {
+		padding: 60px 0 30px;
+	}
+}
+
+.FooterContent {
+	position: relative;
+	z-index: 2;
+	display: flex;
+	justify-content: space-between;
+	gap: 60px;
+	max-width: 1600px;
+	margin: 0 auto 60px;
+	padding: 0 20px;
+
+	@media (max-width: 992px) {
+		flex-wrap: wrap;
+		gap: 40px;
+	}
+}
+
+.contactLink {
+	display: block;
+	margin-bottom: 10px;
+	display: flex;
+	align-items: center;
+	gap: 5px;
+
+	& span {
+		width: 30px;
+		height: 30px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+.BrandColumn,
+.NavColumn {
+	flex: 1;
+	min-width: 250px;
+
+	@media (max-width: 992px) {
+		min-width: calc(50% - 40px);
+	}
+	@media (max-width: 576px) {
+		min-width: 100%;
+	}
+}
+
+.Logo {
+	display: inline-block;
+	font-family: $font-mono;
+	font-size: 32px;
+	font-weight: 700;
+	color: $color-primary;
+	letter-spacing: -0.02em;
+	margin-bottom: 30px;
+}
+
+.Tagline {
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.5;
+	color: $color-text-gray;
+	margin-bottom: 24px;
+	max-width: 300px;
+}
+
+.ContactInfo p {
+	margin: 8px 0;
+	color: $color-text-dark;
+	font-size: 18px;
+	font-weight: 500;
+	font-family: $font-mono;
+	display: flex;
+	align-items: flex-start;
+	gap: 5px;
+
+	& span {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+.ColumnTitle {
+	font-family: $font-mono;
+	font-size: 22px;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-weight: 900;
+	color: $color-primary;
+	margin-bottom: 30px;
+	opacity: 0.8;
+}
+
+.NavColumn ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+
+	li {
+		margin-bottom: 16px;
+
+		a {
+			font-size: 18px;
+			font-weight: 400;
+			color: $color-text-gray;
+			text-decoration: none;
+			transition: all 0.3s ease;
+
+			&:hover {
+				color: $color-primary;
+				padding-left: 5px;
+			}
+		}
+	}
+}
+
+.Divider {
+	height: 1px;
+	border: none;
+	background: linear-gradient(
+		to right,
+		rgba($color-primary, 0) 0%,
+		rgba($color-primary, 0.2) 50%,
+		rgba($color-primary, 0) 100%
+	);
+	margin: 40px 0;
+}
+
+.FooterBottom {
+	position: relative;
+	z-index: 2;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 1600px;
+	margin: 0 auto;
+	padding: 0 20px;
+	font-size: 14px;
+	color: $color-text-gray;
+	font-family: $font-mono;
+
+	@media (max-width: 768px) {
+		flex-direction: column;
+		gap: 20px;
+		text-align: center;
+	}
+}
+
+.LegalInfo {
+	display: flex;
+	gap: 30px;
+
+	a {
+		color: $color-text-gray;
+		text-decoration: none;
+		&:hover {
+			color: $color-primary;
+		}
+	}
+
+	@media (max-width: 768px) {
+		flex-direction: column;
+		gap: 10px;
+	}
+}
+
+.Developer a {
+	color: $color-primary;
+	text-decoration: none;
+	font-weight: 600;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}

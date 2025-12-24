@@ -1,0 +1,132 @@
+{
+	"Header": {
+		"services": "Services",
+		"about": "About Us",
+		"chat": "AI Chat",
+		"contacts": "Contacts",
+		"startProject": "Start Project"
+	},
+	"Hero": {
+		"leaders": "We are leaders in the field of IT automation",
+		"mainTitle": "Server solutions, IT outsourcing",
+		"mainTitleSecond": "-automation",
+		"subtitle": "We, *SERTEX*, take care of IT infrastructure, servers, and support, and implement AI solutions so your business works faster, more stably, and cheaper.",
+		"aiChatBtn": "Solve problems with AI",
+		"ourServicesBtn": "Our services",
+		"trustUs": "Trusted by"
+	},
+	"WhatWeDo": {
+		"title": "Our",
+		"titleAccentColor": "services",
+		"cards": {
+			"corpSoft": {
+				"title": "Corporate Software",
+				"text": "We create software for company tasks: accounting, reports, processes."
+			},
+			"aiSolutions": {
+				"title": "AI Solutions",
+				"text": "We implement process automation and smart assistants."
+			},
+			"corpSystems": {
+				"title": "Corporate Systems",
+				"text": "We develop internal portals, applications, documents, and processes."
+			},
+			"cloud": {
+				"title": "Cloud Solutions",
+				"text": "We launch corporate services available to employees and clients online"
+			},
+			"infra": {
+				"title": "Server Infrastructure",
+				"text": "We deploy, configure, and maintain servers and hosting."
+			},
+			"webDev": {
+				"title": "Web Development",
+				"text": "We create modern corporate websites and online services."
+			},
+			"devOps": {
+				"title": "DevOps and Integration",
+				"text": "We set up automatic updates, connections, and n8n scenarios."
+			},
+			"backup": {
+				"title": "Backup & Storage",
+				"text": "We ensure reliable data storage and backups."
+			},
+			"support": {
+				"title": "24/7 Tech Support",
+				"text": "We help employees and monitor system stability."
+			}
+		},
+		"moreBtn": "Learn more"
+	},
+	"AiChat": {
+		"title": "Haven't found <span>what you're looking for?</span>",
+		"subtitle": "Our <span>AI</span> assistant can help you!",
+		"messages": {
+			"msg1": "Hi — I'm your AI assistant",
+			"msg2": "How can I help you?"
+		},
+		"placeholder": "Type a message..."
+	},
+	"AboutUs": {
+		"title": "About Us",
+		"experience": "Experience",
+		"growth": "Growth",
+		"quality": "Quality",
+		"text1Part1": "Since 2005, we have established ourselves as a",
+		"text1Accent": "reliable",
+		"text1Part2": "partner",
+		"text2Part1": "Who masterfully combines deep experience in",
+		"text2Accent": "automation",
+		"text2Part2": "and network design with a full range of IT services.",
+		"text3Part1": "We are a growing company for which",
+		"text3Accent": "quality",
+		"text3Part2": "is not an option, but a standard!"
+	},
+	"WhyChooseUs": {
+		"title": "Why Choose Us?",
+		"item1": {
+			"title": "Intelligent Automation",
+			"accent": "We turn costs into investments.",
+			"text": "We implement AI and automation systems that pay off quickly. You get 24/7/365 operation without the human factor, instant process clarity, and stable exponential growth."
+		},
+		"item2": {
+			"title": "Security Guarantee",
+			"accent": "We ensure continuous protection of your assets.",
+			"textPart1": "We use a proactive approach (SSL certificates, 24/7 vulnerability scanning).",
+			"textPart2": "You get complete peace of mind, backed by constant monitoring."
+		},
+		"item3": {
+			"title": "Focus on Business Goals",
+			"accent": "We make complex things simple.",
+			"textPart1": "We take full responsibility for all technical routines (software, maintenance, administration).",
+			"textPart2": "Our task is to ensure clean, clear IT performance so you can achieve strategic goals without distractions."
+		},
+		"item4": {
+			"title": "Expert Reliability",
+			"accent": "Experience since 2005 at your service.",
+			"text": "We provide a free initial audit and consultation for your projects. Our deep expertise in industrial automation helps us find solutions where others give up."
+		}
+	},
+	"Footer": {
+		"tagline": "Your reliable IT partner: AI automation, server solutions, and outsourcing.",
+		"titles": {
+			"navigation": "Navigation",
+			"services": "Our Services"
+		},
+		"navItems": {
+			"services": "All Services",
+			"about": "About Us",
+			"chat": "AI Chat",
+			"contacts": "Contacts"
+		},
+		"serviceItems": {
+			"corp": "Corporate Software",
+			"ai": "AI Solutions",
+			"server": "Server Infrastructure",
+			"web": "Web Development"
+		},
+		"copyright": "B2B EU Ltd. All rights reserved.",
+		"vat": "VAT",
+		"developedBy": "Developed by"
+	}
+}

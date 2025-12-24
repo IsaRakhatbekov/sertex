@@ -1,0 +1,71 @@
+// Preloader.module.scss
+
+.Preloader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	// background: #ffffff; // Фон обеспечивается columnsWrapper
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0, 0, 0, 0.04),
+		0 8px 16px rgba(0, 0, 0, 0.06), 0 16px 32px rgba(0, 0, 0, 0.08),
+		0 32px 64px rgba(0, 0, 0, 0.1);
+	z-index: 9999;
+	// visibility: hidden; // Убедитесь, что он скрыт до GSAP, если моргает
+
+	.columnsWrapper {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		overflow: hidden;
+		z-index: 5; // Самый верхний слой
+	}
+
+	.column {
+		height: 100%;
+		background-color: #ffffff; // Белая колонка
+	}
+
+	.contentWrapper {
+		position: relative;
+		z-index: 9999; // Контент должен быть над колонками
+	}
+
+	.dotesWrapper {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 1; // Под контентом, но над колонками
+	}
+
+	h1 {
+		line-height: 1;
+		font-size: 200px;
+		display: inline-flex;
+		overflow: hidden;
+
+		span {
+			display: inline-block;
+		}
+	}
+
+	.percentageContainer {
+		position: absolute;
+		top: 0px;
+		right: 0;
+	}
+
+	.percentage {
+		font-size: 24px;
+		font-weight: 500;
+		color: #333;
+	}
+}

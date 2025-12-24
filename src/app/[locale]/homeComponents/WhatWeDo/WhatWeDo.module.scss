@@ -1,0 +1,135 @@
+$color-primary: #7b5eea;
+
+.WhatWeDo {
+	padding: 100px 0;
+	overflow-x: hidden;
+	background-color: #fdfcff;
+	position: relative;
+
+	.bgGlow1,
+	.bgGlow2 {
+		position: absolute;
+		border-radius: 50%;
+		z-index: 0;
+		opacity: 1.9;
+	}
+
+	.bgGlow1 {
+		top: 30%;
+		left: -35%;
+		width: 60vw;
+		height: 60vw;
+		background: radial-gradient(circle, #ece9ff 0%, rgba(255, 255, 255, 0) 70%);
+	}
+
+	.bgGlow2 {
+		top: 10%;
+		right: 0;
+		width: 70vw;
+		height: 70vw;
+		background: radial-gradient(circle, #f3eafa 0%, rgba(255, 255, 255, 0) 70%);
+	}
+
+	.title {
+		font-size: clamp(32px, 6vw, 60px);
+		line-height: 1.3em;
+		margin-bottom: 50px;
+		font-weight: 900;
+		font-family: var(--font-pt_mono), monospace;
+		& span {
+			color: #7b5eea;
+		}
+	}
+
+	.listWrapper {
+		position: relative;
+		width: 100%;
+	}
+
+	.snakeSvg {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		z-index: 1;
+		overflow: visible;
+	}
+
+	.list {
+		position: relative;
+		z-index: 2;
+		list-style: none;
+		padding: 0;
+		margin-bottom: 50px;
+	}
+
+	.item {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 20px;
+		min-height: 250px;
+		padding: 40px 40px 60px 40px;
+		position: relative;
+	}
+
+	.titleWrapper {
+		overflow: hidden;
+		width: 100%;
+		max-width: 95%;
+	}
+
+	.itemTitle {
+		font-size: clamp(24px, 4vw, 55px);
+		line-height: 1.1em;
+		width: 100%;
+		display: inline-block;
+		font-family: var(--font-pt_mono), monospace;
+
+		& span {
+			font-size: 24px;
+		}
+	}
+
+	.textWrapper {
+		width: 100%;
+		max-width: 40%;
+		text-align: right;
+		overflow: hidden;
+		position: relative;
+		align-self: flex-end;
+	}
+
+	.text {
+		font-size: clamp(16px, 2.5vw, 30px);
+		line-height: 1.3em;
+		display: inline-block;
+		text-wrap: balance;
+	}
+
+	.btn {
+		display: block;
+		padding: 16px 36px;
+		font-size: 18px;
+		font-weight: 500;
+		border-radius: 100px;
+		cursor: pointer;
+		margin: 0 auto;
+		color: #fff;
+		background-color: $color-primary;
+		font-family: var(--font-pt_mono), monospace;
+		box-shadow: 0 10px 25px rgba($color-primary, 0.3);
+		border: 1px solid transparent;
+		position: relative;
+		z-index: 9;
+	}
+
+	@media (max-width: 768px) {
+		.item {
+			padding: 40px 20px 60px 20px;
+			min-height: 200px;
+		}
+	}
+}
